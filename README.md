@@ -181,8 +181,9 @@ And signs a message digest producing the signature $(r, s)$.
 ## 🏆 Hackathon Submission & Pitch Checklist
 
 * **Public GitHub Repo (25 pts):** [https://github.com/NVN404/Aegis-protocol](https://github.com/NVN404/Aegis-protocol)
+* **Publicly Hosted Live URL (25 pts):** [https://frontend-rho-liart-96.vercel.app](https://frontend-rho-liart-96.vercel.app)
 * **Contract Deployments (25 pts):** `0x29373c...` & `0xeE575e...` (Chain ID 10143)
-* **Contract Verification (25 pts):** 100% Verified on Sourcify & MonadVision
+* **Contract Verification (25 pts):** 100% Verified on MonadVision & Sourcify
 * **Live Demo (25 pts):** 1-Tap Biometric Smart Account creation with instant 400ms Monad Testnet execution!
 
 ---
