@@ -4,7 +4,9 @@ import { useState } from "react";
 import { usePasskey, useRelayer } from "@monad-passkey/react";
 import { MONAD_NETWORKS, MONAD_PRECOMPILE_0X0100 } from "@monad-passkey/core";
 
-export default function Home() {
+import { PasskeyProvider } from "@monad-passkey/react";
+
+function DemoApp() {
   const {
     identity,
     isLoading,
@@ -317,5 +319,19 @@ function ConnectButton() {
         </p>
       </footer>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <PasskeyProvider
+      config={{
+        relayerUrl: process.env.NEXT_PUBLIC_RELAYER_URL ?? "http://localhost:3006",
+        network: "testnet",
+        rpName: "Monad Passkey SDK Example",
+      }}
+    >
+      <DemoApp />
+    </PasskeyProvider>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PasskeyProvider } from "@monad-passkey/react";
+import { Providers } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,15 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PasskeyProvider
-          config={{
-            relayerUrl: process.env.NEXT_PUBLIC_RELAYER_URL ?? "http://localhost:3006",
-            network: "testnet",
-            rpName: "Monad Passkey SDK Example",
-          }}
-        >
-          {children}
-        </PasskeyProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

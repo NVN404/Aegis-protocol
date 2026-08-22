@@ -4,14 +4,14 @@
   "description": "React hooks and context for Monad Passkey Proof of Personhood — FaceID/TouchID onchain identity",
   "keywords": ["monad", "passkey", "react", "hooks", "webauthn", "web3", "proof-of-personhood"],
   "license": "MIT",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "files": ["dist"],
