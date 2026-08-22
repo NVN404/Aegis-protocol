@@ -1,37 +1,28 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import {
   Fingerprint,
   ShieldCheck,
-  DeviceMobile,
+  Smartphone,
   Copy,
   Check,
-  PaperPlaneTilt,
+  Send,
   QrCode,
-  Drop,
-  GameController,
+  Droplets,
+  Gamepad2,
   Cpu,
-  ArrowsClockwise,
-  Sparkle,
-  LockKey,
+  RefreshCw,
+  Sparkles,
   Flame,
-  Key,
-  ClockCounterClockwise,
-  ArrowSquareOut,
-  CheckCircle,
-  WarningCircle,
-  CircleNotch,
-} from "@phosphor-icons/react";
+  History,
+  ExternalLink,
+  Loader2,
+} from "lucide-react";
 import {
   PasskeyIdentity,
-  PasskeySignatureResult,
   createHardwarePasskey,
   createSimulatedPasskey,
-  signWithHardwarePasskey,
-  signWithSimulatedPasskey,
-  isWebAuthnAvailable,
 } from "@/lib/webauthn";
 import { SendModal } from "./SendModal";
 import { ReceiveModal } from "./ReceiveModal";
@@ -86,7 +77,6 @@ export function MobileWalletApp() {
       const stored = localStorage.getItem("monad_mobile_passkey_identity");
       if (stored) {
         const parsed = JSON.parse(stored);
-        // Clear any old invalid test addresses
         if (parsed.counterfactualAddress === "0xb83FE55C4c783F97076B1e5773469995Daf1a35B") {
           localStorage.removeItem("monad_mobile_passkey_identity");
           localStorage.removeItem("monad_wallet_tx_history");
@@ -148,7 +138,6 @@ export function MobileWalletApp() {
       await claimStarterGasAndDeploy(newIdentity);
     } catch (err: any) {
       console.error("Hardware passkey creation notice:", err);
-      // If hardware passkey fails or is cancelled, offer simulated enclave directly
       setError("Passkey prompt was cancelled or unsupported on this device. Try 'Simulate Enclave' below!");
     } finally {
       setLoading(false);
@@ -193,7 +182,6 @@ export function MobileWalletApp() {
         const updatedIdentity = { ...id, counterfactualAddress: finalAccount };
         handleSetIdentity(updatedIdentity);
 
-        // Record creation & drip in history
         if (data.transactionHash) {
           addTransaction({
             id: `drip-${Date.now()}`,
@@ -215,7 +203,6 @@ export function MobileWalletApp() {
       }
     } catch (err: any) {
       console.error("Deploy/Fund error:", err);
-      // Fallback: set identity anyway so user can see dashboard
       handleSetIdentity(id);
       setError("Account initialized. Balance will sync shortly.");
     }
@@ -229,45 +216,47 @@ export function MobileWalletApp() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-[#070514] border border-white/10 rounded-[2.5rem] shadow-[0_25px_70px_rgba(131,110,249,0.25)] overflow-hidden flex flex-col min-h-[640px] text-white relative">
+    <div className="w-full max-w-md mx-auto bg-white border border-neutral-200/90 rounded-[2rem] shadow-[0_20px_50px_-15px_rgba(15,15,15,0.12)] overflow-hidden flex flex-col min-h-[600px] text-neutral-900 relative">
       {/* ─── Top Status Bar ─── */}
-      <div className="px-6 pt-5 pb-3 flex items-center justify-between border-b border-white/5 bg-[#0b081e]">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#836EF9] to-[#20E2D7] flex items-center justify-center font-black text-xs text-white shadow-md">
-            M
+      <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-neutral-100 bg-[#faf9f7]">
+        <div className="flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-[#0a0a0a] flex items-center justify-center font-bold text-xs text-white shadow-sm">
+            <ShieldCheck size={18} className="text-[#ff6b00]" />
           </div>
           <div>
-            <h1 className="text-xs font-black tracking-wide text-white flex items-center space-x-1.5">
+            <h1 className="text-xs font-bold tracking-wide text-neutral-900 flex items-center space-x-1.5 leading-none">
               <span>MONADPASS</span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#836EF9]/20 text-[#20E2D7] font-mono">POP</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#ff6b00]/10 text-[#cc5400] font-mono font-bold">
+                POP
+              </span>
             </h1>
-            <p className="text-[10px] text-gray-400 font-mono">Precompile 0x0100</p>
+            <p className="text-[10px] text-neutral-500 font-mono mt-0.5">Precompile 0x0100</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-mono font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Testnet 10143</span>
           </div>
 
           {identity && (
             <button
               onClick={() => handleSetIdentity(null)}
-              className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs transition"
+              className="p-1.5 rounded-lg bg-neutral-100 text-neutral-600 hover:bg-rose-50 hover:text-rose-600 text-xs transition"
               title="Reset / Switch Account"
             >
-              <ArrowsClockwise size={14} />
+              <RefreshCw size={14} />
             </button>
           )}
         </div>
       </div>
 
       {/* ─── Body Content ─── */}
-      <div className="p-6 flex-1 flex flex-col">
+      <div className="p-5 flex-1 flex flex-col">
         {/* Error Alert */}
         {error && (
-          <div className="mb-4 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between">
+          <div className="mb-4 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center justify-between">
             <span>{error}</span>
             <button onClick={() => setError(null)} className="font-bold ml-2">✕</button>
           </div>
@@ -275,7 +264,7 @@ export function MobileWalletApp() {
 
         {/* Success Alert */}
         {successMessage && (
-          <div className="mb-4 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between">
+          <div className="mb-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
             <span>{successMessage}</span>
             <button onClick={() => setSuccessMessage(null)} className="font-bold ml-2">✕</button>
           </div>
@@ -284,19 +273,19 @@ export function MobileWalletApp() {
         {!identity ? (
           /* ─── Unauthenticated / Onboarding State ─── */
           <div className="my-auto text-center py-6 space-y-6">
-            <div className="relative mx-auto w-24 h-24">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#836EF9] to-[#20E2D7] opacity-40 blur-xl animate-pulse"></div>
-              <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-tr from-[#161136] to-[#0c0824] border border-[#836EF9]/40 flex items-center justify-center text-[#20E2D7] shadow-2xl">
-                <Fingerprint size={48} weight="bold" />
+            <div className="relative mx-auto w-20 h-20">
+              <div className="relative w-20 h-20 rounded-3xl bg-[#fffaf5] border-2 border-[#ff6b00]/30 flex items-center justify-center text-[#ff6b00] shadow-sm">
+                <Fingerprint size={44} />
               </div>
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-black tracking-tight text-white">
-                Mobile Hardware Identity
+              <h2 className="text-xl font-bold tracking-tight text-neutral-900">
+                Mobile Hardware Passkey
               </h2>
-              <p className="text-xs text-gray-400 max-w-[32ch] mx-auto leading-relaxed">
-                Zero seed phrases. 1-Tap TouchID/FaceID creates a deterministic Monad Smart Account verified by Precompile <span className="text-[#20E2D7] font-mono">0x0100</span>.
+              <p className="text-xs text-neutral-600 max-w-[32ch] mx-auto leading-relaxed">
+                Zero seed phrases. 1-Tap TouchID/FaceID creates a deterministic Monad Smart Account verified by Precompile{" "}
+                <span className="text-[#ff6b00] font-mono font-bold">0x0100</span>.
               </p>
             </div>
 
@@ -304,16 +293,16 @@ export function MobileWalletApp() {
               <button
                 onClick={handleCreateHardwarePasskey}
                 disabled={loading}
-                className="w-full flex items-center justify-center space-x-2 py-3.5 rounded-2xl bg-gradient-to-r from-[#836EF9] via-[#7056F8] to-[#20E2D7] text-white font-extrabold text-sm shadow-[0_0_25px_rgba(131,110,249,0.5)] hover:brightness-110 active:scale-[0.98] transition disabled:opacity-50"
+                className="w-full flex items-center justify-center space-x-2 py-3.5 rounded-2xl bg-[#0a0a0a] hover:bg-[#222] text-white font-bold text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50"
               >
                 {loading ? (
                   <>
-                    <CircleNotch size={18} className="animate-spin" />
+                    <Loader2 size={18} className="animate-spin" />
                     <span className="text-xs">{loadingText}</span>
                   </>
                 ) : (
                   <>
-                    <Fingerprint size={20} weight="bold" />
+                    <Fingerprint size={18} className="text-[#ff6b00]" />
                     <span>Create with FaceID / TouchID</span>
                   </>
                 )}
@@ -322,9 +311,9 @@ export function MobileWalletApp() {
               <button
                 onClick={handleCreateSimulatedPasskey}
                 disabled={loading}
-                className="w-full flex items-center justify-center space-x-2 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-bold text-xs transition active:scale-95 disabled:opacity-50"
+                className="w-full flex items-center justify-center space-x-2 py-3 rounded-2xl bg-neutral-100 hover:bg-neutral-200/80 border border-neutral-200 text-neutral-800 font-bold text-xs transition active:scale-95 disabled:opacity-50"
               >
-                <Sparkle size={16} className="text-[#20E2D7]" weight="fill" />
+                <Sparkles size={16} className="text-[#ff6b00]" />
                 <span>Simulate Enclave (Instant Sandbox)</span>
               </button>
             </div>
@@ -333,43 +322,41 @@ export function MobileWalletApp() {
           /* ─── Authenticated Mobile Wallet Dashboard ─── */
           <div className="space-y-4 flex-1 flex flex-col">
             {/* Balance Card */}
-            <div className="relative rounded-3xl bg-gradient-to-br from-[#1c1543] via-[#100b2c] to-[#0a071d] border border-[#836EF9]/30 p-5 shadow-2xl overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#836EF9]/20 rounded-full blur-2xl pointer-events-none"></div>
-
+            <div className="relative rounded-2xl bg-[#fffaf5] border border-[#ff6b00]/30 p-5 shadow-sm overflow-hidden">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-mono text-gray-400 flex items-center space-x-1">
-                  <ShieldCheck size={14} className="text-[#20E2D7]" weight="fill" />
-                  <span>{identity.deviceLabel}</span>
+                <span className="text-[11px] font-mono text-neutral-600 flex items-center space-x-1">
+                  <ShieldCheck size={14} className="text-[#ff6b00]" />
+                  <span className="font-semibold">{identity.deviceLabel}</span>
                 </span>
                 <button
                   onClick={fetchBalance}
-                  className="text-gray-400 hover:text-white transition"
+                  className="text-neutral-400 hover:text-neutral-800 transition"
                   title="Refresh Balance"
                 >
-                  <ArrowsClockwise size={14} />
+                  <RefreshCw size={14} />
                 </button>
               </div>
 
               {/* Large MON Balance */}
               <div className="my-1">
                 <div className="flex items-baseline space-x-2">
-                  <span className="text-3xl font-black tracking-tight text-white">{balance}</span>
-                  <span className="text-sm font-bold text-[#836EF9]">MON</span>
+                  <span className="text-3xl font-black tracking-tight text-neutral-900">{balance}</span>
+                  <span className="text-sm font-bold text-[#ff6b00]">MON</span>
                 </div>
-                <span className="text-[10px] text-gray-400">Monad Testnet Native Balance</span>
+                <span className="text-[10px] text-neutral-500 font-mono">Monad Testnet Native Balance</span>
               </div>
 
               {/* Address Strip & MonadScan Link */}
-              <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
+              <div className="mt-3 pt-3 border-t border-[#ff6b00]/15 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-[11px] font-mono text-[#20E2D7] font-bold truncate max-w-[140px]">
+                  <span className="text-[11px] font-mono text-neutral-900 font-bold truncate max-w-[150px]">
                     {identity.counterfactualAddress}
                   </span>
                   <button
                     onClick={handleCopyAddress}
-                    className="text-[11px] text-gray-300 hover:text-white flex items-center space-x-1"
+                    className="text-[11px] text-neutral-500 hover:text-neutral-900 flex items-center space-x-1"
                   >
-                    {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                    {copied ? <Check size={12} className="text-emerald-600 font-bold" /> : <Copy size={12} />}
                     <span>{copied ? "Copied" : "Copy"}</span>
                   </button>
                 </div>
@@ -378,7 +365,7 @@ export function MobileWalletApp() {
                   href={`https://testnet.monadexplorer.com/address/${identity.counterfactualAddress}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[10px] font-mono text-[#836EF9] hover:text-[#20E2D7] underline flex items-center space-x-0.5"
+                  className="text-[10px] font-mono text-[#cc5400] hover:underline flex items-center space-x-0.5 font-bold"
                 >
                   <span>MonadScan</span>
                   <span>↗</span>
@@ -390,54 +377,56 @@ export function MobileWalletApp() {
             <div className="grid grid-cols-4 gap-2 text-center">
               <button
                 onClick={() => setIsSendOpen(true)}
-                className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center justify-center gap-1.5 transition active:scale-95"
+                className="p-3 rounded-2xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 flex flex-col items-center justify-center gap-1.5 transition active:scale-95"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#836EF9]/20 text-[#836EF9] flex items-center justify-center">
-                  <PaperPlaneTilt size={18} weight="bold" />
+                <div className="w-9 h-9 rounded-xl bg-neutral-900 text-white flex items-center justify-center">
+                  <Send size={16} />
                 </div>
-                <span className="text-[11px] font-bold text-gray-200">Send</span>
+                <span className="text-[11px] font-bold text-neutral-800">Send</span>
               </button>
 
               <button
                 onClick={() => setIsReceiveOpen(true)}
-                className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center justify-center gap-1.5 transition active:scale-95"
+                className="p-3 rounded-2xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 flex flex-col items-center justify-center gap-1.5 transition active:scale-95"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#20E2D7]/20 text-[#20E2D7] flex items-center justify-center">
-                  <QrCode size={18} weight="bold" />
+                <div className="w-9 h-9 rounded-xl bg-[#ff6b00] text-white flex items-center justify-center">
+                  <QrCode size={16} />
                 </div>
-                <span className="text-[11px] font-bold text-gray-200">Receive</span>
+                <span className="text-[11px] font-bold text-neutral-800">Receive</span>
               </button>
 
               <button
                 onClick={() => claimStarterGasAndDeploy(identity)}
                 disabled={isDripping}
-                className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 disabled:opacity-50"
+                className="p-3 rounded-2xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 disabled:opacity-50"
               >
-                <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
-                  <Drop size={18} weight="bold" />
+                <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center">
+                  <Droplets size={16} />
                 </div>
-                <span className="text-[11px] font-bold text-gray-200">{isDripping ? "Dripping..." : "Drip"}</span>
+                <span className="text-[11px] font-bold text-neutral-800">{isDripping ? "Dripping..." : "Drip"}</span>
               </button>
 
               <a
                 href="http://localhost:3000"
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 rounded-2xl bg-gradient-to-br from-[#836EF9]/20 to-[#20E2D7]/20 hover:from-[#836EF9]/30 hover:to-[#20E2D7]/30 border border-[#20E2D7]/30 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 text-white"
+                className="p-3 rounded-2xl bg-[#fffaf5] hover:bg-[#fff4eb] border border-[#ff6b00]/30 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 text-neutral-900"
               >
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                  <GameController size={18} weight="bold" />
+                <div className="w-9 h-9 rounded-xl bg-[#ff6b00]/15 text-[#cc5400] flex items-center justify-center font-bold">
+                  <Gamepad2 size={18} />
                 </div>
-                <span className="text-[11px] font-bold text-[#20E2D7]">Fall Guys</span>
+                <span className="text-[11px] font-bold text-[#cc5400]">Fall Guys</span>
               </a>
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex border-b border-white/10 text-xs font-bold text-gray-400 pt-1 overflow-x-auto">
+            <div className="flex border-b border-neutral-200 text-xs font-bold text-neutral-500 pt-1 overflow-x-auto">
               <button
                 onClick={() => setActiveTab("wallet")}
                 className={`pb-2 px-2.5 border-b-2 transition whitespace-nowrap ${
-                  activeTab === "wallet" ? "border-[#836EF9] text-white" : "border-transparent hover:text-gray-200"
+                  activeTab === "wallet"
+                    ? "border-[#ff6b00] text-neutral-900 font-bold"
+                    : "border-transparent hover:text-neutral-900"
                 }`}
               >
                 Overview
@@ -445,16 +434,20 @@ export function MobileWalletApp() {
               <button
                 onClick={() => setActiveTab("activity")}
                 className={`pb-2 px-2.5 border-b-2 transition whitespace-nowrap flex items-center space-x-1 ${
-                  activeTab === "activity" ? "border-[#836EF9] text-white" : "border-transparent hover:text-gray-200"
+                  activeTab === "activity"
+                    ? "border-[#ff6b00] text-neutral-900 font-bold"
+                    : "border-transparent hover:text-neutral-900"
                 }`}
               >
-                <ClockCounterClockwise size={13} />
+                <History size={13} />
                 <span>History ({txHistory.length})</span>
               </button>
               <button
                 onClick={() => setActiveTab("security")}
                 className={`pb-2 px-2.5 border-b-2 transition whitespace-nowrap ${
-                  activeTab === "security" ? "border-[#836EF9] text-white" : "border-transparent hover:text-gray-200"
+                  activeTab === "security"
+                    ? "border-[#ff6b00] text-neutral-900 font-bold"
+                    : "border-transparent hover:text-neutral-900"
                 }`}
               >
                 Precompile 0x0100
@@ -462,7 +455,9 @@ export function MobileWalletApp() {
               <button
                 onClick={() => setActiveTab("pop")}
                 className={`pb-2 px-2.5 border-b-2 transition whitespace-nowrap ${
-                  activeTab === "pop" ? "border-[#836EF9] text-white" : "border-transparent hover:text-gray-200"
+                  activeTab === "pop"
+                    ? "border-[#ff6b00] text-neutral-900 font-bold"
+                    : "border-transparent hover:text-neutral-900"
                 }`}
               >
                 PoP Identity
@@ -474,22 +469,22 @@ export function MobileWalletApp() {
               {/* 1. OVERVIEW TAB */}
               {activeTab === "wallet" && (
                 <div className="space-y-2.5">
-                  <div className="p-3 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 flex items-center justify-between">
                     <div>
-                      <span className="text-gray-400 block text-[10px]">Connected Relayer Gas Pool</span>
-                      <span className="font-bold text-white">72+ MON Active Sponsor</span>
+                      <span className="text-neutral-500 block text-[10px]">Connected Relayer Gas Pool</span>
+                      <span className="font-bold text-neutral-900">72+ MON Active Sponsor</span>
                     </div>
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-[10px]">
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold">
                       Gasless
                     </span>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 flex items-center justify-between">
                     <div>
-                      <span className="text-gray-400 block text-[10px]">Sybil Resistance Tier</span>
-                      <span className="font-bold text-[#20E2D7]">Hardware Silicon Locked (P-256)</span>
+                      <span className="text-neutral-500 block text-[10px]">Sybil Resistance Tier</span>
+                      <span className="font-bold text-[#cc5400]">Hardware Silicon Locked (P-256)</span>
                     </div>
-                    <Flame size={16} className="text-amber-400" weight="fill" />
+                    <Flame size={16} className="text-amber-500" />
                   </div>
                 </div>
               )}
@@ -498,19 +493,19 @@ export function MobileWalletApp() {
               {activeTab === "activity" && (
                 <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
                   {txHistory.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500 space-y-1">
-                      <ClockCounterClockwise size={28} className="mx-auto text-gray-600 mb-1" />
-                      <p className="font-bold text-gray-400 text-xs">No Transactions Yet</p>
+                    <div className="text-center py-8 text-neutral-400 space-y-1">
+                      <History size={28} className="mx-auto text-neutral-300 mb-1" />
+                      <p className="font-bold text-neutral-600 text-xs">No Transactions Yet</p>
                       <p className="text-[10px]">Your on-chain creation and transfer txs will appear here.</p>
                     </div>
                   ) : (
                     txHistory.map((tx) => (
                       <div
                         key={tx.id || tx.hash}
-                        className="p-3 rounded-2xl bg-black/50 border border-white/10 flex items-center justify-between hover:border-[#836EF9]/40 transition group"
+                        className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 flex items-center justify-between hover:border-neutral-300 transition group"
                       >
                         <div className="flex items-center space-x-2.5">
-                          <div className="w-8 h-8 rounded-xl bg-[#836EF9]/20 text-[#20E2D7] flex items-center justify-center font-bold">
+                          <div className="w-8 h-8 rounded-xl bg-white border border-neutral-200 text-[#ff6b00] flex items-center justify-center font-bold shadow-xs">
                             {tx.type === "REGISTRATION" && "🪪"}
                             {tx.type === "FAUCET_DRIP" && "💧"}
                             {tx.type === "SEND_MON" && "↗"}
@@ -518,12 +513,12 @@ export function MobileWalletApp() {
                           </div>
                           <div>
                             <div className="flex items-center space-x-1.5">
-                              <span className="font-bold text-white text-xs">{tx.title}</span>
+                              <span className="font-bold text-neutral-900 text-xs">{tx.title}</span>
                               {tx.amount && (
-                                <span className="font-mono text-emerald-400 font-bold text-[10px]">{tx.amount}</span>
+                                <span className="font-mono text-emerald-700 font-bold text-[10px]">{tx.amount}</span>
                               )}
                             </div>
-                            <span className="font-mono text-[10px] text-gray-400 block truncate max-w-[170px]">
+                            <span className="font-mono text-[10px] text-neutral-500 block truncate max-w-[160px]">
                               {tx.hash.slice(0, 10)}...{tx.hash.slice(-8)}
                             </span>
                           </div>
@@ -533,10 +528,10 @@ export function MobileWalletApp() {
                           href={tx.explorerUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-[#836EF9]/30 text-[#20E2D7] text-[11px] font-mono font-bold flex items-center space-x-1 border border-white/5 group-hover:border-[#836EF9]/50 transition shadow-sm"
+                          className="px-2.5 py-1.5 rounded-lg bg-white border border-neutral-200 text-neutral-800 hover:text-[#ff6b00] text-[11px] font-mono font-bold flex items-center space-x-1 shadow-xs transition"
                         >
                           <span>MonadScan</span>
-                          <ArrowSquareOut size={12} />
+                          <ExternalLink size={12} />
                         </a>
                       </div>
                     ))
@@ -547,41 +542,41 @@ export function MobileWalletApp() {
               {/* 3. PRECOMPILE 0x0100 TAB */}
               {activeTab === "security" && (
                 <div className="space-y-2">
-                  <div className="p-3 rounded-2xl bg-black/40 border border-white/5 space-y-1">
-                    <div className="flex items-center justify-between text-[10px] text-gray-400 font-mono">
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 space-y-1">
+                    <div className="flex items-center justify-between text-[10px] text-neutral-500 font-mono">
                       <span>Precompile Address</span>
-                      <span className="text-[#836EF9] font-bold">0x0100 (EIP-7951)</span>
+                      <span className="text-[#cc5400] font-bold">0x0100 (EIP-7951)</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] text-gray-400 font-mono">
+                    <div className="flex items-center justify-between text-[10px] text-neutral-500 font-mono">
                       <span>Gas Cost</span>
-                      <span className="text-emerald-400 font-bold">6,900 flat (-97.8%)</span>
+                      <span className="text-emerald-700 font-bold">6,900 flat (-98.2%)</span>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] text-gray-400 font-mono">
+                    <div className="flex items-center justify-between text-[10px] text-neutral-500 font-mono">
                       <span>Curve</span>
-                      <span className="text-white font-bold">secp256r1 (NIST P-256)</span>
+                      <span className="text-neutral-900 font-bold">secp256r1 (NIST P-256)</span>
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-black/60 border border-white/5 text-[10px] font-mono text-gray-400 truncate">
-                    <span>Qx: </span><span className="text-gray-200">{identity.pubKeyX}</span>
+                  <div className="p-2.5 rounded-xl bg-white border border-neutral-200 text-[10px] font-mono text-neutral-500 truncate">
+                    <span>Qx: </span><span className="text-neutral-800 font-medium">{identity.pubKeyX}</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-black/60 border border-white/5 text-[10px] font-mono text-gray-400 truncate">
-                    <span>Qy: </span><span className="text-gray-200">{identity.pubKeyY}</span>
+                  <div className="p-2.5 rounded-xl bg-white border border-neutral-200 text-[10px] font-mono text-neutral-500 truncate">
+                    <span>Qy: </span><span className="text-neutral-800 font-medium">{identity.pubKeyY}</span>
                   </div>
                 </div>
               )}
 
               {/* 4. PROOF OF PERSONHOOD TAB */}
               {activeTab === "pop" && (
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-[#15103a] to-[#0a071d] border border-white/5 space-y-2">
+                <div className="p-3 rounded-xl bg-[#fffaf5] border border-[#ff6b00]/30 space-y-2">
                   <div className="flex items-center space-x-2">
-                    <ShieldCheck size={20} className="text-[#10B981]" weight="fill" />
+                    <ShieldCheck size={20} className="text-emerald-600" />
                     <div>
-                      <h4 className="font-bold text-xs text-white">Verified Human Device</h4>
-                      <p className="text-[10px] text-gray-400">1 Smartphone = 1 Non-Custodial Identity</p>
+                      <h4 className="font-bold text-xs text-neutral-900">Verified Human Device</h4>
+                      <p className="text-[10px] text-neutral-500">1 Smartphone = 1 Non-Custodial Identity</p>
                     </div>
                   </div>
-                  <p className="text-[11px] text-gray-300 leading-relaxed pt-1">
+                  <p className="text-[11px] text-neutral-600 leading-relaxed pt-1">
                     Your physical phone&apos;s Secure Enclave prevents bot scripts and multi-accounting on Monad faucets, airdrops, and games.
                   </p>
                 </div>

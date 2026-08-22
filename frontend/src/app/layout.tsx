@@ -37,7 +37,8 @@ export const metadata: Metadata = {
     "Account Abstraction",
   ],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.png",
+    apple: "/icon.png",
   },
 };
 
