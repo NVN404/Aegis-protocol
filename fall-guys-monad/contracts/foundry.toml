@@ -13,6 +13,4 @@ remappings = [
 
 [rpc_endpoints]
 monad_testnet = "https://testnet-rpc.monad.xyz"
-
-[etherscan]
-monad_testnet = { key = "placeholder", url = "https://sourcify-api-monad.blockvision.org/" }
+monad_mainnet = "https://rpc.monad.xyz"
