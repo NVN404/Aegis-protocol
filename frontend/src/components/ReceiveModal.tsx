@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { QrCode, X, Copy, Check, ShieldCheck } from "@phosphor-icons/react";
+import { QrCode, X, Copy, Check } from "lucide-react";
 import { PasskeyIdentity } from "@/lib/webauthn";
 
 interface ReceiveModalProps {
@@ -23,54 +23,49 @@ export function ReceiveModal({ isOpen, onClose, identity }: ReceiveModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="w-full max-w-sm rounded-3xl bg-[#0e0a26] border border-white/10 p-6 text-white shadow-2xl relative text-center"
+        className="w-full max-w-sm rounded-3xl bg-white border border-neutral-200/90 p-6 text-neutral-900 shadow-2xl relative text-center"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition"
+          className="absolute top-4 right-4 p-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-900 transition"
         >
-          <X size={18} />
+          <X size={16} />
         </button>
 
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#20E2D7] to-[#10B981] flex items-center justify-center text-slate-950 mx-auto mb-3 shadow-lg">
-          <QrCode size={24} weight="bold" />
+        <div className="w-12 h-12 rounded-2xl bg-[#0a0a0a] flex items-center justify-center text-white mx-auto mb-3 shadow-sm">
+          <QrCode size={24} className="text-[#ff6b00]" />
         </div>
 
-        <h3 className="font-extrabold text-base">Receive Monad (MON)</h3>
-        <p className="text-xs text-gray-400 mb-4">Send testnet MON or tokens to this hardware address</p>
+        <h3 className="font-bold text-base text-neutral-900">Receive Monad (MON)</h3>
+        <p className="text-xs text-neutral-500 mb-4">Send testnet MON or tokens to this hardware address</p>
 
         {/* QR Simulation Box */}
-        <div className="p-4 rounded-2xl bg-white mx-auto w-48 h-48 flex flex-col items-center justify-center shadow-inner mb-4">
-          <div className="w-full h-full border-4 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center text-slate-900 p-2 text-center">
-            <QrCode size={80} className="text-[#836EF9]" weight="fill" />
-            <span className="text-[9px] font-mono font-bold text-slate-700 mt-1">MONAD PASSKEY WALLET</span>
+        <div className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200 mx-auto w-48 h-48 flex flex-col items-center justify-center mb-4">
+          <div className="w-full h-full border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-neutral-800 p-2 text-center">
+            <QrCode size={72} className="text-neutral-900" />
+            <span className="text-[9px] font-mono font-bold text-neutral-600 mt-1">MONAD PASSKEY WALLET</span>
           </div>
         </div>
 
         {/* Address Display */}
-        <div className="p-3 rounded-xl bg-black/40 border border-white/10 text-left mb-4">
-          <span className="text-[10px] text-gray-400 font-mono block mb-1">Your Monad Smart Address:</span>
-          <p className="text-xs font-mono text-[#20E2D7] font-bold break-all">
+        <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 text-left mb-4">
+          <span className="text-[10px] text-neutral-500 font-mono block mb-1">Your Monad Smart Address:</span>
+          <p className="text-xs font-mono text-neutral-900 font-bold break-all">
             {identity.counterfactualAddress}
           </p>
         </div>
 
-        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[#10B981] mb-4">
-          <ShieldCheck size={14} weight="fill" />
-          <span>Secured by {identity.deviceLabel}</span>
-        </div>
-
         <button
           onClick={handleCopy}
-          className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-[#836EF9] hover:bg-[#725aeb] text-white font-bold text-xs shadow-lg transition"
+          className="w-full py-3 rounded-xl bg-[#0a0a0a] hover:bg-[#222] text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-sm transition active:scale-95"
         >
-          {copied ? <Check size={16} weight="bold" /> : <Copy size={16} />}
-          <span>{copied ? "Address Copied!" : "Copy Address"}</span>
+          {copied ? <Check size={16} className="text-emerald-400 font-bold" /> : <Copy size={16} />}
+          <span>{copied ? "Copied to Clipboard!" : "Copy Address"}</span>
         </button>
       </motion.div>
     </div>
