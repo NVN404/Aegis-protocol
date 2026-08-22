@@ -3,6 +3,7 @@
 > **The Sovereign, Seedless Hardware Wallet & Anti-Sybil Protocol for Monad — powered natively by Precompile `0x0100` (EIP-7951 / RIP-7212) in 6,900 gas.**
 
 [![Live App](https://img.shields.io/badge/Live%20Demo-aegis--protocol.vercel.app-FF6B00?style=for-the-badge&logo=vercel)](https://aegis-protocol-sand-gamma.vercel.app/)
+[![Video Demo](https://img.shields.io/badge/Demo%20Video-Google%20Drive-4285F4?style=for-the-badge&logo=googledrive)](https://drive.google.com/drive/folders/1_jEZAbkW-XR8Zg4N90rMex0KoSF9r_LO?usp=drive_link)
 [![Monad Testnet](https://img.shields.io/badge/Network-Monad%20Testnet%20(10143)-836EF9?style=for-the-badge&logo=monad)](https://testnet.monadexplorer.com/)
 [![Precompile 0x0100](https://img.shields.io/badge/Precompile-0x0100%20(EIP--7951)-20E2D7?style=for-the-badge)](https://docs.monad.xyz)
 [![Gas Cost](https://img.shields.io/badge/Gas%20Cost-6%2C900%20Flat%20(-98.2%25)-10B981?style=for-the-badge)](https://docs.monad.xyz)
@@ -11,9 +12,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 > 🚀 **Live Production Deployment**: [https://aegis-protocol-sand-gamma.vercel.app/](https://aegis-protocol-sand-gamma.vercel.app/)  
+> 🎬 **Demo Video & Walkthrough (Google Drive)**: [https://drive.google.com/drive/folders/1_jEZAbkW-XR8Zg4N90rMex0KoSF9r_LO?usp=drive_link](https://drive.google.com/drive/folders/1_jEZAbkW-XR8Zg4N90rMex0KoSF9r_LO?usp=drive_link)  
 > 📱 **You can test our app in mobile too!** Scan the QR code below with your iPhone or Android camera to experience 1-tap hardware TouchID & FaceID WebAuthn on Monad:
 > 
 > <img src="./assets/mobile-qr.png" width="180" alt="Scan to test Aegis Protocol on Mobile" />
+
 
 
 
@@ -188,11 +191,13 @@ And signs a message digest producing the signature $(r, s)$.
 
 ## 🏆 Hackathon Submission & Pitch Checklist
 
-* **Public GitHub Repo (25 pts):** [https://github.com/NVN404/Aegis-protocol](https://github.com/NVN404/Aegis-protocol)
-* **Publicly Hosted Live URL (25 pts):** [https://frontend-rho-liart-96.vercel.app](https://frontend-rho-liart-96.vercel.app)
-* **Contract Deployments (25 pts):** `0x29373c...` & `0xeE575e...` (Chain ID 10143)
-* **Contract Verification (25 pts):** 100% Verified on MonadVision & Sourcify
-* **Live Demo (25 pts):** 1-Tap Biometric Smart Account creation with instant 400ms Monad Testnet execution!
+* **Public GitHub Repo:** [https://github.com/NVN404/Aegis-protocol](https://github.com/NVN404/Aegis-protocol)
+* **Publicly Hosted Live URL:** [https://aegis-protocol-sand-gamma.vercel.app/](https://aegis-protocol-sand-gamma.vercel.app/)
+* **Video Demo (Google Drive):** [https://drive.google.com/drive/folders/1_jEZAbkW-XR8Zg4N90rMex0KoSF9r_LO?usp=drive_link](https://drive.google.com/drive/folders/1_jEZAbkW-XR8Zg4N90rMex0KoSF9r_LO?usp=drive_link)
+* **Contract Deployments:** `0x29373c0172c89eA61df297ca76A252815b012bd1` & `0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4` (Chain ID 10143)
+* **Contract Verification:** 100% Verified on MonadVision & Sourcify
+* **Live Demo:** 1-Tap Biometric Hardware Smart Account creation with instant 400ms Monad Testnet execution!
+
 
 ---
 
