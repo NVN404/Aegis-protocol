@@ -1,0 +1,11 @@
+{
+  "name": "fall-guys-monad-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "server": "node server/index.js",
+    "test:contracts": "cd contracts && forge test",
+    "build": "npm --prefix web run build"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@monad-passkey/core",
+  "version": "0.1.0",
+  "description": "Core WebAuthn + secp256r1 (P-256) utilities for Monad Passkey Proof of Personhood",
+  "keywords": ["monad", "passkey", "webauthn", "p256", "secp256r1", "proof-of-personhood", "web3"],
+  "license": "MIT",
+  "author": "Monad Passkey PoP",
+  "homepage": "https://github.com/monad-passkey/sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/monad-passkey/sdk.git",
+    "directory": "packages/core"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "ethers": "^6.0.0"
+  },
+  "devDependencies": {
+    "ethers": "^6.13.5",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5"
+  }
+}

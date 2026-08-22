@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "MonadPass — Hardware Passkey Wallet",
+  "version": "1.0.0",
+  "description": "Mobile-Native & Desktop Hardware Passkey Smart Wallet for Monad (Precompile 0x0100, 6,900 gas). Zero seed phrases.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://testnet-rpc.monad.xyz/*",
+    "http://localhost:3006/*",
+    "http://localhost:3000/*",
+    "http://localhost:3005/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inpage.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

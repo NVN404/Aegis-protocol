@@ -1,0 +1,28 @@
+{
+  "name": "@monad-passkey/contracts",
+  "version": "0.1.0",
+  "description": "Typed ABIs and deployed addresses for Monad Passkey PoP smart contracts",
+  "keywords": ["monad", "passkey", "abi", "contracts", "proof-of-personhood"],
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5"
+  }
+}

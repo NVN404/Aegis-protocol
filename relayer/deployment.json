@@ -1,0 +1,11 @@
+{
+  "network": "Monad Testnet",
+  "chainId": 10143,
+  "deployer": "0xC4c0499851Bb8e413BBa83fEdD93b485ca26b352",
+  "deployedAt": "2026-08-19T19:18:05.802Z",
+  "contracts": {
+    "PasskeyAccountFactory": "0xf0778d3F792b8d89E603124232f335C8f496D1a6",
+    "ProofOfPersonhoodRegistry": "0xd9e6c85409d250308c31DEf3a7021889a96fBe8C",
+    "SybilResistantFaucet": "0x5b6e24Be7714980f202e02221f5a5E9E34d0D4bD"
+  }
+}

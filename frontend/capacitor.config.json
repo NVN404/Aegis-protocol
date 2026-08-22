@@ -1,0 +1,12 @@
+{
+  "appId": "xyz.monad.passkey",
+  "appName": "MonadPass",
+  "webDir": "out",
+  "server": {
+    "url": "http://localhost:3005",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

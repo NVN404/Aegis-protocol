@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MonadPass</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo">M</div>
+        <div class="title-group">
+          <span class="title">MONADPASS <span class="badge">POP</span></span>
+          <span class="subtitle">Precompile 0x0100 · 6,900 Gas</span>
+        </div>
+      </div>
+      <div class="network-badge">
+        <span class="status-dot"></span>
+        <span>10143</span>
+      </div>
+    </header>
+
+    <!-- Main View: Onboarding OR Dashboard -->
+    <main id="main-content">
+      <!-- Onboarding State -->
+      <section id="onboarding-view" class="view active">
+        <div class="hero-icon">
+          <div class="glow"></div>
+          <div class="icon-box">⚡</div>
+        </div>
+        <h2>Laptop Hardware Identity</h2>
+        <p class="desc">
+          Zero seed phrases. 1-Tap TouchID / Windows Hello creates your Monad Smart Account.
+        </p>
+        <button id="btn-create-hardware" class="btn btn-primary">
+          <span>👆 Create with TouchID</span>
+        </button>
+        <button id="btn-create-simulated" class="btn btn-secondary">
+          <span>✨ Simulate Enclave (Instant Sandbox)</span>
+        </button>
+      </section>
+
+      <!-- Authenticated Wallet Dashboard -->
+      <section id="dashboard-view" class="view">
+        <!-- Balance Card -->
+        <div class="balance-card">
+          <div class="card-header">
+            <span id="device-label" class="device-label">Apple TouchID</span>
+            <button id="btn-refresh" class="icon-btn" title="Refresh Balance">🔄</button>
+          </div>
+          <div class="balance-amount">
+            <span id="balance-val">0.00</span>
+            <span class="curr">MON</span>
+          </div>
+          <div class="card-footer">
+            <span id="account-address" class="address-text">0x000...0000</span>
+            <div class="card-links">
+              <button id="btn-copy-address" class="link-btn">Copy</button>
+              <a id="link-monadscan" href="https://testnet.monadexplorer.com" target="_blank" class="link-btn accent">MonadScan ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="action-grid">
+          <button id="btn-action-send" class="action-btn">
+            <div class="action-icon">↗</div>
+            <span>Send</span>
+          </button>
+          <button id="btn-action-receive" class="action-btn">
+            <div class="action-icon">📥</div>
+            <span>Receive</span>
+          </button>
+          <button id="btn-action-drip" class="action-btn">
+            <div class="action-icon">💧</div>
+            <span>Drip</span>
+          </button>
+          <a href="http://localhost:3000" target="_blank" class="action-btn game">
+            <div class="action-icon">🎮</div>
+            <span>Fall Guys</span>
+          </a>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="history">History</button>
+          <button class="tab-btn" data-tab="security">0x0100 Tech</button>
+        </div>
+
+        <!-- Tab Panels -->
+        <div class="tab-content">
+          <div id="tab-history" class="tab-pane active">
+            <div id="tx-history-list" class="history-list">
+              <div class="empty-state">No transactions yet</div>
+            </div>
+          </div>
+
+          <div id="tab-security" class="tab-pane">
+            <div class="tech-spec">
+              <div class="spec-row">
+                <span>Precompile:</span>
+                <span class="mono accent">0x0100 (EIP-7951)</span>
+              </div>
+              <div class="spec-row">
+                <span>Gas Cost:</span>
+                <span class="mono green">6,900 flat (-98%)</span>
+              </div>
+              <div class="spec-row">
+                <span>Curve:</span>
+                <span class="mono">secp256r1 (P-256)</span>
+              </div>
+              <div class="spec-row">
+                <span>Security:</span>
+                <span class="mono">Hardware Enclave Silicon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Send Modal -->
+      <div id="modal-send" class="modal">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3>Send MON</h3>
+            <button id="btn-close-send" class="close-btn">✕</button>
+          </div>
+          <form id="form-send">
+            <div class="form-group">
+              <label>Recipient Address (0x...)</label>
+              <input id="input-recipient" type="text" placeholder="0x..." required />
+            </div>
+            <div class="form-group">
+              <label>Amount (MON)</label>
+              <input id="input-amount" type="number" step="0.01" value="0.1" required />
+            </div>
+            <button type="submit" id="btn-confirm-send" class="btn btn-primary">
+              <span>👆 Sign with TouchID &amp; Send</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="https://testnet.monadexplorer.com" target="_blank" class="explorer-link">
+        <span class="pulse-dot"></span>
+        <span>Monad Testnet Explorer ↗</span>
+      </a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
