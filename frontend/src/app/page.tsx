@@ -12,13 +12,13 @@ import { LiveContractsSection } from "@/components/LiveContractsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { InteractiveWalletModal } from "@/components/InteractiveWalletModal";
 import { Footer } from "@/components/Footer";
-import { Smartphone, ExternalLink } from "lucide-react";
+import { Smartphone, ExternalLink, Fingerprint } from "lucide-react";
 
 export default function Home() {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#f5f4f2] text-[#0a0a0a] flex flex-col relative overflow-x-hidden">
+    <main className="min-h-screen bg-[#f5f4f2] text-[#0a0a0a] flex flex-col relative overflow-x-hidden pb-16 sm:pb-0">
       {/* Floating Pill Navbar */}
       <Navbar onOpenWallet={() => setIsWalletModalOpen(true)} />
 
@@ -55,26 +55,29 @@ export default function Home() {
         onClose={() => setIsWalletModalOpen(false)}
       />
 
-      {/* ─── Bottom-Right Floating Quick Launch Dock ─── */}
-      <aside aria-label="Quick launch tools" className="fixed bottom-4 right-4 z-50 flex items-center gap-2">
+      {/* ─── Bottom Floating Quick Launch Dock (Mobile & Desktop) ─── */}
+      <aside
+        aria-label="Quick launch tools"
+        className="fixed bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-auto sm:right-4 z-50 flex items-center justify-between sm:justify-end gap-2 p-1.5 rounded-full bg-white/90 sm:bg-transparent backdrop-blur-xl sm:backdrop-blur-none border border-neutral-200/90 sm:border-0 shadow-lg sm:shadow-none"
+      >
         <button
           type="button"
           onClick={() => setIsWalletModalOpen(true)}
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-full bg-[#0a0a0a] hover:bg-[#222] text-white shadow-xl border border-neutral-700 transition active:scale-95 text-xs font-bold cursor-pointer"
+          className="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2.5 rounded-full bg-[#ff6b00] hover:bg-[#e55e00] text-white shadow-md transition active:scale-95 text-xs font-bold cursor-pointer"
         >
-          <Smartphone size={16} className="text-[#ff6b00]" />
-          <span>Launch Wallet</span>
+          <Fingerprint size={16} />
+          <span>Launch Passkey Wallet</span>
         </button>
 
         <a
           href="https://testnet.monadexplorer.com"
           target="_blank"
           rel="noreferrer"
-          className="hidden sm:flex items-center space-x-1.5 px-3.5 py-2.5 rounded-full bg-white/90 hover:bg-white border border-neutral-200 text-neutral-800 shadow-md backdrop-blur-md transition active:scale-95 text-xs font-bold"
+          className="flex items-center space-x-1.5 px-3.5 py-2.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white shadow-md transition active:scale-95 text-xs font-bold"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Monad Explorer</span>
-          <ExternalLink size={13} className="text-neutral-500" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="hidden xs:inline">Explorer</span>
+          <ExternalLink size={12} className="text-neutral-400" />
         </a>
       </aside>
     </main>

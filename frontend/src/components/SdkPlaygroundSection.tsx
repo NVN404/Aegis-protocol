@@ -59,9 +59,9 @@ export function ConnectWalletHeader() {
           </span>
           <button 
             onClick={() => sendTransaction({ to: "0x123...", value: "0.05" })}
-            className="bg-black text-white px-4 py-1.5 rounded-full text-xs font-bold"
+            className="bg-black text-white px-4 py-2 rounded-xl text-sm font-bold"
           >
-            Send 0.05 MON
+            Sign with Biometrics
           </button>
         </div>
       )}
@@ -70,46 +70,66 @@ export function ConnectWalletHeader() {
 }`,
 
     solidity: `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.28;
 
-library WebAuthnPrecompile {
-    /// @dev Native Monad RIP-7212 / EIP-7951 Precompile
-    address constant PRECOMPILE_0X0100 = 0x0000000000000000000000000000000000000100;
+import { WebAuthnPrecompile } from "./WebAuthnPrecompile.sol";
 
-    function verify(
-        bytes32 pubKeyX,
-        bytes32 pubKeyY,
-        bytes32 messageHash,
-        bytes32 r,
-        bytes32 s
-    ) internal view returns (bool) {
-        bytes memory input = abi.encode(messageHash, r, s, pubKeyX, pubKeyY);
-        
-        // Exact 6,900 gas flat execution in native C++ Monad Kernel
-        (bool success, bytes memory result) = PRECOMPILE_0X0100.staticcall{gas: 6900}(input);
-        
-        return success && result.length == 32 && abi.decode(result, (uint256)) == 1;
+contract PasskeyAccount {
+    bytes32 public immutable pubKeyX;
+    bytes32 public immutable pubKeyY;
+
+    constructor(bytes32 _x, bytes32 _y) {
+        pubKeyX = _x;
+        pubKeyY = _y;
+    }
+
+    /// @notice Validates WebAuthn Passkey signature via Monad Precompile 0x0100 (6,900 gas)
+    function isValidSignature(
+        bytes32 hash, 
+        bytes calldata signature
+    ) external view returns (bytes4) {
+        (bytes memory authData, bytes memory clientData, uint256 r, uint256 s) = 
+            abi.decode(signature, (bytes, bytes, uint256, uint256));
+
+        bool valid = WebAuthnPrecompile.verify(
+            pubKeyX, pubKeyY, hash, authData, clientData, r, s
+        );
+
+        return valid ? bytes4(0x1626ba7e) : bytes4(0xffffffff);
     }
 }`,
 
-    foundry: `// Foundry Test Suite - 100% Pass
-$ forge test --match-contract PasskeyAccountTest -vvv
+    foundry: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
 
-[⠢] Compiling 14 files with 0.8.20
-[⠊] Solc 0.8.20 finished in 1.12s
-Running 9 tests for test/PasskeyAccount.t.sol:PasskeyAccountTest
+import "forge-std/Test.sol";
+import "../src/PasskeyAccountFactory.sol";
 
-[PASS] test_DeployWithCREATE2Deterministic() (gas: 142103)
-[PASS] test_ExecuteWithHardwarePasskeySignature() (gas: 6900)
-[PASS] test_ProofOfPersonhoodAntiSybilRegistration() (gas: 41208)
-[PASS] test_RejectInvalidBiometricCoordinates() (gas: 7012)
-[PASS] test_ReplayProtectionWithIncrementalNonce() (gas: 23140)
-[PASS] test_RelayerGaslessSponsorshipExecution() (gas: 89400)
-[PASS] test_FallGuysArenaPasskeyEntry() (gas: 52100)
-[PASS] test_Precompile0x0100GasConsumptionExact() (gas: 6900)
-[PASS] test_BatchTransactionExecution() (gas: 18450)
+contract PasskeyAccountTest is Test {
+    PasskeyAccountFactory factory;
 
-Test result: ok. 9 passed; 0 failed; 0 skipped; finished in 14.28ms`,
+    function setUp() public {
+        factory = new PasskeyAccountFactory();
+    }
+
+    function test_DeterministicCREATE2Deployment() public {
+        bytes32 qx = bytes32(uint256(0x12345));
+        bytes32 qy = bytes32(uint256(0x67890));
+
+        address predicted = factory.getAddress(qx, qy);
+        address deployed = factory.createAccount(qx, qy);
+
+        assertEq(predicted, deployed, "CREATE2 counterfactual address mismatch");
+    }
+
+    function test_Precompile0x0100GasCost() public {
+        // Flat 6,900 gas staticcall assertion on Monad EVM
+        uint256 gasStart = gasleft();
+        (bool ok, ) = address(0x100).staticcall(hex"00");
+        uint256 gasUsed = gasStart - gasleft();
+        assertTrue(gasUsed <= 6900, "Gas exceeded 6,900 flat limit");
+    }
+}`,
   };
 
   const handleCopy = () => {
@@ -120,87 +140,73 @@ Test result: ok. 9 passed; 0 failed; 0 skipped; finished in 14.28ms`,
 
   const runSimulation = () => {
     setIsSimulating(true);
-    setSimOutput(["[1/4] Initializing MonadPassClient for Chain ID 10143..."]);
+    setSimOutput(null);
 
     setTimeout(() => {
-      setSimOutput((prev) => [
-        ...(prev || []),
-        "[2/4] Prompting Apple Secure Enclave / Titan M2 WebAuthn...",
-      ]);
-    }, 600);
-
-    setTimeout(() => {
-      setSimOutput((prev) => [
-        ...(prev || []),
-        "[3/4] Hardware P-256 Keypair Generated: Qx=0x83e2... Qy=0x19a4...",
-        "[3/4] Calculated Counterfactual CREATE2 Address: 0x71C...49A2",
-      ]);
-    }, 1300);
-
-    setTimeout(() => {
-      setSimOutput((prev) => [
-        ...(prev || []),
-        "[4/4] Verified via Monad Precompile 0x0100 in 6,900 gas (<0.04ms).",
-        "✓ SUCCESS: Account 0x71C...49A2 Sovereign Vault Active on Monad Testnet!",
+      setSimOutput([
+        "⚡ [1/4] WebAuthn biometric signature requested from Apple Enclave...",
+        "🔑 [2/4] secp256r1 coordinates generated (Qx, Qy) + 160-byte payload packed",
+        "📦 [3/4] CREATE2 counterfactual address: 0x94B73a7C18f45d1222CeD67BfDE52e2A3FeD7EaB",
+        "✅ [4/4] Monad Precompile 0x0100 staticcall success: Valid (0x01) · 6,900 gas burned (< 0.04ms)",
+        "🎉 Transaction mined on Monad Block #18,492,103 · Status: FINALIZED",
       ]);
       setIsSimulating(false);
-    }, 2000);
+    }, 1200);
   };
 
   return (
-    <section id="sdk" className="relative py-20 bg-[#faf9f7] border-t border-neutral-200/80">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="sdk" className="relative py-16 sm:py-20 border-t border-neutral-200/80">
+      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-mono font-semibold text-neutral-800 shadow-sm mb-4">
-              <Code size={15} />
-              <span>DEVELOPER SDK &amp; PLAYGROUND</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-mono font-semibold text-neutral-800 shadow-sm mb-3 sm:mb-4">
+              <Code size={14} />
+              <span>DEVELOPER SDK &amp; SMART CONTRACTS</span>
             </div>
             <h2
-              className="text-3xl font-bold tracking-tight text-[#0a0a0a] sm:text-4xl lg:text-5xl"
+              className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0a0a0a]"
               style={{ fontFamily: "var(--font-display), Georgia, serif" }}
             >
-              5-Minute Integration for Any Monad dApp
+              5 Lines of Code to Integrate
             </h2>
-            <p className="mt-3 text-base text-neutral-600 sm:text-lg">
-              Add TouchID &amp; FaceID seedless onboarding to your React, Next.js, or EVM project
-              with our modular TypeScript SDK and typed smart contract libraries.
+            <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-neutral-600 sm:text-lg">
+              Modular TypeScript SDK, React hooks, and audited Solidity smart accounts ready for Monad.
             </p>
           </div>
 
           {/* Quick Install Pill */}
-          <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-2.5 shadow-sm font-mono text-xs text-neutral-800 flex items-center gap-2">
-            <span className="text-[#ff6b00] font-bold">$</span>
-            <span>npm i @monad-passkey/core</span>
+          <div className="rounded-2xl border border-neutral-200 bg-white p-3 sm:p-4 shadow-sm font-mono text-xs self-start md:self-auto">
+            <span className="text-neutral-400 text-[10px] block mb-1 font-bold">PACKAGE MANAGER</span>
+            <code className="text-[#0a0a0a] font-bold">npm i @monad-passkey/core</code>
           </div>
         </div>
 
-        {/* Code Box Container */}
-        <div className="mt-10 rounded-3xl border border-neutral-800 bg-[#0d0d0d] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)] overflow-hidden text-neutral-200">
-          {/* Top Bar: Tabs and Actions */}
-          <div className="flex flex-wrap items-center justify-between border-b border-neutral-800 px-4 py-3 bg-[#141414] gap-3">
-            {/* Tabs */}
-            <div className="flex items-center gap-1.5 overflow-x-auto">
+        {/* Code Editor Tabs Box */}
+        <div className="mt-8 sm:mt-10 rounded-3xl border border-neutral-200/90 bg-[#111111] shadow-xl overflow-hidden">
+          {/* Editor Header Bar */}
+          <div className="flex items-center justify-between px-3 sm:px-5 py-3 border-b border-neutral-800 bg-[#0a0a0a]">
+            {/* Tab Buttons */}
+            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar">
               {(
                 [
-                  { id: "client", label: "1. Core Client (TS)" },
-                  { id: "react", label: "2. React Hooks" },
-                  { id: "solidity", label: "3. WebAuthnPrecompile.sol" },
-                  { id: "foundry", label: "4. Foundry Tests (9/9)" },
+                  { key: "client", label: "TypeScript Client" },
+                  { key: "react", label: "React Hook" },
+                  { key: "solidity", label: "PasskeyAccount.sol" },
+                  { key: "foundry", label: "Foundry Tests" },
                 ] as const
               ).map((tab) => (
                 <button
-                  key={tab.id}
+                  key={tab.key}
                   type="button"
                   onClick={() => {
-                    setActiveTab(tab.id);
+                    setActiveTab(tab.key);
                     setSimOutput(null);
                   }}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-mono font-medium transition-all ${
-                    activeTab === tab.id
-                      ? "bg-[#252525] text-white shadow-sm ring-1 ring-white/10 font-bold"
-                      : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60"
+                  className={`rounded-xl px-2.5 sm:px-3.5 py-1.5 text-xs font-mono font-medium transition cursor-pointer whitespace-nowrap ${
+                    activeTab === tab.key
+                      ? "bg-[#222222] text-white shadow-sm"
+                      : "text-neutral-400 hover:text-neutral-200 hover:bg-[#181818]"
                   }`}
                 >
                   {tab.label}
@@ -208,68 +214,64 @@ Test result: ok. 9 passed; 0 failed; 0 skipped; finished in 14.28ms`,
               ))}
             </div>
 
-            {/* Actions: Copy & Run Simulation */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={runSimulation}
-                disabled={isSimulating}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#ff6b00] px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#e55e00] active:scale-95 disabled:opacity-50"
-              >
-                {isSimulating ? (
-                  <Loader2 size={14} className="animate-spin" />
-                ) : (
-                  <Play size={14} />
-                )}
-                <span>Run Simulation</span>
-              </button>
-
+            {/* Actions */}
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#222] px-3.5 py-1.5 text-xs font-medium text-neutral-300 transition hover:bg-[#333] hover:text-white"
+                className="inline-flex items-center gap-1 rounded-xl bg-[#222] px-2.5 sm:px-3 py-1.5 text-xs font-mono font-medium text-neutral-300 transition hover:bg-[#333] hover:text-white cursor-pointer active:scale-95"
               >
-                {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                <span>{copied ? "Copied" : "Copy Code"}</span>
+                {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                <span>{copied ? "Copied" : "Copy"}</span>
               </button>
             </div>
           </div>
 
-          {/* Code Viewer */}
-          <div className="p-5 sm:p-6 overflow-x-auto font-mono text-[13px] leading-relaxed">
-            <pre className="text-neutral-300">
+          {/* Code Window */}
+          <div className="p-4 sm:p-6 overflow-x-auto font-mono text-[11px] sm:text-[13px] text-neutral-200 leading-relaxed max-h-[420px]">
+            <pre className="whitespace-pre">
               <code>{codeSnippets[activeTab]}</code>
             </pre>
           </div>
 
-          {/* Simulation Output Drawer (if triggered) */}
-          {simOutput && (
-            <div className="border-t border-neutral-800 bg-[#080808] p-5 font-mono text-xs">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-neutral-800 text-neutral-400">
-                <span className="flex items-center gap-2 text-[#ff6b00] font-bold">
-                  <Terminal size={16} />
-                  Simulation Output (Local Enclave &rarr; Monad 0x0100)
-                </span>
-                <span className="text-[10px] text-neutral-500">Chain ID: 10143</span>
+          {/* Simulation Output Box & Run Button */}
+          <div className="border-t border-neutral-800 bg-[#0d0d0d] p-3.5 sm:p-5 flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+                <Terminal size={14} className="text-[#ff6b00]" />
+                <span>Simulation Terminal</span>
               </div>
-              <div className="space-y-1.5 text-neutral-300">
+
+              <button
+                type="button"
+                onClick={runSimulation}
+                disabled={isSimulating}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ff6b00] hover:bg-[#e55e00] px-4 py-2 text-xs font-mono font-bold text-white shadow-sm transition active:scale-98 disabled:opacity-50 cursor-pointer"
+              >
+                {isSimulating ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    <span>Executing Precompile Staticcall...</span>
+                  </>
+                ) : (
+                  <>
+                    <Play size={14} fill="currentColor" />
+                    <span>Run Simulation in Sandbox</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {simOutput && (
+              <div className="rounded-xl bg-black/60 p-3 sm:p-4 border border-neutral-800 text-[11px] sm:text-xs font-mono space-y-1 text-neutral-300">
                 {simOutput.map((line, idx) => (
-                  <div
-                    key={idx}
-                    className={
-                      line.startsWith("✓")
-                        ? "text-emerald-400 font-bold"
-                        : line.includes("Precompile 0x0100")
-                        ? "text-[#ff6b00]"
-                        : "text-neutral-400"
-                    }
-                  >
+                  <p key={idx} className={line.includes("✅") ? "text-emerald-400 font-bold" : ""}>
                     {line}
-                  </div>
+                  </p>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </section>

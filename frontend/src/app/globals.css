@@ -1,117 +1,68 @@
-/* Hallmark · genre: modern-minimal · macrostructure: Workbench / Split-Engine · theme: custom (Aegis Monad Obsidian) · enrichment: Tier-A interactive simulator · nav: N5 · footer: Ft5 */
-@import "./tokens.css";
 @import "tailwindcss";
 
-@layer base {
-  html,
-  body {
-    overflow-x: clip;
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-body);
-    min-height: 100dvh;
-    letter-spacing: -0.01em;
-  }
+:root {
+  --bg-canvas: #f5f4f2;
+  --bg-card: #ffffff;
+  --bg-subtle: #faf9f7;
+  --border-subtle: #e5e3de;
+  --border-strong: #d4d1cb;
+  --text-primary: #0a0a0a;
+  --text-secondary: #575550;
+  --text-muted: #8c8983;
+  --accent-orange: #ff6b00;
+  --accent-orange-dark: #cc5400;
+  --accent-orange-subtle: rgba(255, 107, 0, 0.08);
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
-    font-style: normal; /* Hallmark gate 38a: No italic headers */
-    letter-spacing: -0.03em;
-  }
-
-  code, pre, kbd, samp {
-    font-family: var(--font-mono);
-  }
+  --font-sans: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-display), Georgia, serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Hallmark 8-State Interactive Disciplines & Token Utilities */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  background-color: var(--color-accent);
-  color: #ffffff;
-  font-weight: 600;
-  border-radius: var(--radius-full);
-  padding: 0.75rem 1.5rem;
-  transition: all var(--dur-fast) var(--ease-out);
-  border: 1px solid transparent;
-  cursor: pointer;
-  user-select: none;
-}
-.btn-primary:hover {
-  background-color: var(--color-accent-hover);
-  box-shadow: 0 0 20px rgba(131, 110, 249, 0.4);
-}
-.btn-primary:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-}
-.btn-primary:active {
-  transform: translateY(1px) scale(0.98);
-}
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
 }
 
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  background-color: var(--color-paper-2);
-  color: var(--color-ink);
-  font-weight: 600;
-  border-radius: var(--radius-full);
-  padding: 0.75rem 1.5rem;
-  transition: all var(--dur-fast) var(--ease-out);
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-  user-select: none;
-}
-.btn-secondary:hover {
-  background-color: var(--color-paper-3);
-  border-color: var(--color-border-hover);
-}
-.btn-secondary:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-}
-.btn-secondary:active {
-  transform: translateY(1px) scale(0.98);
-}
-
-.aegis-card {
-  background-color: var(--color-paper-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
-}
-.aegis-card:hover {
-  border-color: var(--color-border-hover);
-  background-color: var(--color-paper-3);
-}
-
-.aegis-pill {
-  background: var(--color-paper-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: var(--color-paper);
+  background: #f5f4f2;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
+  background: #d4d1cb;
+  border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: #a8a59f;
+}
+
+/* Micro-animations & utilities */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(0.98); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+.tasteskill-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 227, 222, 0.8);
 }

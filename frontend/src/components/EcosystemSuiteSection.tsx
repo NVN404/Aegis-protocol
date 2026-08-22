@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Globe,
   Smartphone,
@@ -118,65 +118,65 @@ export function EcosystemSuiteSection({ onOpenWallet }: EcosystemSuiteSectionPro
   ];
 
   return (
-    <section id="ecosystem" className="relative py-20 border-t border-neutral-200/80">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="ecosystem" className="relative py-16 sm:py-20 border-t border-neutral-200/80">
+      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-mono font-semibold text-neutral-800 shadow-sm mb-4">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-mono font-semibold text-neutral-800 shadow-sm mb-3 sm:mb-4">
             <span>FULL PRODUCT SUITE</span>
           </div>
           <h2
-            className="text-3xl font-bold tracking-tight text-[#0a0a0a] sm:text-4xl lg:text-5xl"
+            className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0a0a0a]"
             style={{ fontFamily: "var(--font-display), Georgia, serif" }}
           >
             What&apos;s Inside the Aegis Ecosystem
           </h2>
-          <p className="mt-3 text-base text-neutral-600 sm:text-lg">
+          <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-neutral-600 sm:text-lg">
             A battle-tested suite of developer tools, browser extensions, mobile apps, smart contracts,
             and game integrations built for the high-throughput Monad ecosystem.
           </p>
         </div>
 
         {/* Product Cards Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 sm:mt-12 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => {
             const Icon = p.icon;
             return (
               <div
                 key={p.id}
-                className="group relative flex flex-col justify-between rounded-3xl border border-neutral-200/90 bg-white p-7 shadow-sm transition-all duration-300 hover:border-neutral-300 hover:shadow-[0_12px_32px_-10px_rgba(15,15,15,0.12)] hover:-translate-y-1"
+                className="group relative flex flex-col justify-between rounded-3xl border border-neutral-200/90 bg-white p-5 sm:p-7 shadow-sm transition-all duration-300 hover:border-neutral-300 hover:shadow-md"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0a0a0a] text-white shadow-sm transition-transform duration-300 group-hover:scale-105">
-                      <Icon size={22} className="text-[#ff6b00]" />
+                    <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-[#0a0a0a] text-white shadow-sm transition-transform duration-300 group-hover:scale-105">
+                      <Icon size={20} className="text-[#ff6b00]" />
                     </div>
-                    <span className="rounded-full bg-neutral-100 px-3 py-1 text-[11px] font-mono font-bold text-neutral-700 border border-neutral-200">
+                    <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-[11px] font-mono font-bold text-neutral-700 border border-neutral-200">
                       {p.badge}
                     </span>
                   </div>
 
-                  <h3 className="mt-5 text-lg font-bold text-neutral-900">{p.title}</h3>
-                  <p className="text-xs font-mono text-[#ff6b00] font-semibold mt-0.5">{p.path}</p>
+                  <h3 className="mt-4 sm:mt-5 text-base sm:text-lg font-bold text-neutral-900">{p.title}</h3>
+                  <p className="text-[11px] sm:text-xs font-mono text-[#ff6b00] font-semibold mt-0.5">{p.path}</p>
 
-                  <p className="mt-3 text-sm leading-relaxed text-neutral-600">{p.description}</p>
+                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-neutral-600">{p.description}</p>
 
-                  <div className="mt-5 space-y-2">
+                  <div className="mt-4 sm:mt-5 space-y-1.5 sm:space-y-2">
                     {p.features.map((feat, idx) => (
                       <div key={idx} className="flex items-center gap-2 text-xs font-medium text-neutral-700">
-                        <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
+                        <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
                         <span>{feat}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-6 pt-5 border-t border-neutral-100">
+                <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-neutral-100">
                   {p.isAction ? (
                     <button
                       type="button"
                       onClick={onOpenWallet}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0a0a0a] py-2.5 px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#222]"
+                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0a0a0a] hover:bg-[#222] py-2.5 px-4 text-xs font-bold text-white shadow-sm transition active:scale-98 cursor-pointer"
                     >
                       <Fingerprint size={16} className="text-[#ff6b00]" />
                       <span>{p.actionText}</span>
@@ -189,7 +189,7 @@ export function EcosystemSuiteSection({ onOpenWallet }: EcosystemSuiteSectionPro
                       className="flex items-center justify-between text-xs font-bold text-neutral-800 hover:text-[#ff6b00] transition"
                     >
                       <span>{p.linkText}</span>
-                      <ExternalLink size={15} />
+                      <ExternalLink size={14} />
                     </a>
                   )}
                 </div>
