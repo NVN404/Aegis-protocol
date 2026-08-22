@@ -1,15 +1,36 @@
+/* Aegis Protocol Extension · Matches frontend/src/components/MobileWalletApp.tsx design exactly */
+
 :root {
-  --bg-main: #F8FAFC;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #F1F5F9;
-  --accent-purple: #6E56CF;
-  --accent-purple-light: #EDE9FE;
-  --accent-cyan: #0284C7;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --border: #E2E8F0;
-  --border-accent: #C4B5FD;
+  /* Canvas — same as frontend bg-white / bg-[#faf9f7] */
+  --bg-main: #faf9f7;
+  --bg-card: #ffffff;
+  --bg-card-warm: #fffaf5;
+  --bg-card-hover: #f5f5f4;        /* neutral-100 */
+  --bg-surface: #fafaf9;           /* neutral-50  */
+
+  /* Accent — frontend uses #ff6b00 everywhere */
+  --accent: #ff6b00;
+  --accent-dark: #cc5400;
+  --accent-bg: rgba(255, 107, 0, 0.10);
+  --accent-border: rgba(255, 107, 0, 0.30);
+
+  /* Ink — matches text-neutral-900 / 600 / 500 */
+  --text-main: #0a0a0a;
+  --text-body: #525252;            /* neutral-600 */
+  --text-muted: #737373;           /* neutral-500 */
+
+  /* Borders — matches border-neutral-200 */
+  --border: #e5e5e5;
+  --border-light: rgba(229, 229, 229, 0.80);
+
+  /* Signal Colors */
   --emerald: #10B981;
+  --emerald-bg: #ecfdf5;           /* emerald-50  */
+  --emerald-border: #a7f3d0;       /* emerald-200 */
+  --emerald-text: #047857;         /* emerald-700 */
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
+  --amber-text: #b45309;
 }
 
 * {
@@ -32,36 +53,37 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 16px;
   justify-content: space-between;
 }
 
-/* Header */
+/* ─── Header (matches MobileWalletApp status bar) ─── */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #f5f5f4;
+  background: var(--bg-main);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  background: var(--text-main);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 14px;
-  color: #fff;
+  font-size: 16px;
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .title-group {
@@ -70,38 +92,44 @@ body {
 }
 
 .title {
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
   color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .badge {
-  font-size: 8px;
-  padding: 1px 4px;
-  border-radius: 4px;
-  background: var(--accent-purple-light);
-  color: var(--accent-purple);
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: var(--accent-bg);
+  color: var(--accent-dark);
+  font-family: monospace;
   font-weight: 700;
 }
 
 .subtitle {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--text-muted);
   font-family: monospace;
+  margin-top: 1px;
 }
 
 .network-badge {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 12px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  color: var(--emerald);
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
+  color: var(--emerald-text);
   font-size: 10px;
   font-weight: bold;
+  font-family: monospace;
 }
 
 .status-dot, .pulse-dot {
@@ -121,111 +149,131 @@ body {
   100% { opacity: 0.4; }
 }
 
-/* Views */
+/* ─── Views ─── */
 .view {
   display: none;
   flex-direction: column;
   gap: 12px;
-  margin-top: 12px;
+  padding: 16px;
+  flex: 1;
 }
 
 .view.active {
   display: flex;
 }
 
-/* Onboarding */
+/* ─── Onboarding (matches MobileWalletApp unauthenticated state) ─── */
 #onboarding-view {
   text-align: center;
-  padding: 24px 8px;
+  padding: 28px 20px;
   align-items: center;
+  justify-content: center;
 }
 
 .hero-icon {
   position: relative;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 8px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 12px;
 }
 
 .hero-icon .glow {
-  position: absolute;
-  inset: 0;
-  background: var(--accent-purple);
-  filter: blur(20px);
-  opacity: 0.2;
+  display: none; /* no glow in light theme */
 }
 
 .hero-icon .icon-box {
   position: relative;
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--accent-purple-light), #F8FAFC);
-  border: 1px solid var(--border-accent);
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: var(--bg-card-warm);
+  border: 2px solid var(--accent-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 40px;
+  color: var(--accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
 h2 {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--text-main);
 }
 
 .desc {
-  font-size: 11px;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--text-body);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  max-width: 30ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Buttons */
+.desc .accent-mono {
+  color: var(--accent);
+  font-family: monospace;
+  font-weight: 700;
+}
+
+/* ─── Buttons (matches MobileWalletApp CTA styling) ─── */
 .btn {
   width: 100%;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  font-size: 13px;
   font-weight: bold;
   cursor: pointer;
   border: none;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-purple), #5B43D6);
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(110, 86, 207, 0.3);
+  background: var(--text-main);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .btn-primary:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 6px 20px rgba(110, 86, 207, 0.4);
+  background: #222222;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-secondary {
-  background: var(--bg-card);
+  background: #f5f5f4;
   border: 1px solid var(--border);
-  color: var(--text-muted);
+  color: var(--text-body);
 }
 
 .btn-secondary:hover {
-  background: var(--bg-card-hover);
+  background: #e5e5e5;
   color: var(--text-main);
-  border-color: var(--border-accent);
 }
 
-/* Balance Card */
+.btn-secondary:active {
+  transform: scale(0.95);
+}
+
+/* ─── Balance Card (matches bg-[#fffaf5] border-[#ff6b00]/30) ─── */
 .balance-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-accent);
+  background: var(--bg-card-warm);
+  border: 1px solid var(--accent-border);
   border-radius: 16px;
-  padding: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 2px 12px rgba(110, 86, 207, 0.08);
+  gap: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
 .card-header {
@@ -235,109 +283,169 @@ h2 {
 }
 
 .device-label {
-  font-size: 10px;
-  color: var(--accent-purple);
+  font-size: 11px;
+  color: var(--text-body);
   font-family: monospace;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.device-label::before {
+  content: "🛡️";
+  font-size: 13px;
 }
 
 .icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+
+.icon-btn:hover {
+  color: var(--text-main);
 }
 
 .balance-amount {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 8px;
+  margin: 4px 0;
 }
 
 #balance-val {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 900;
+  letter-spacing: -0.02em;
   color: var(--text-main);
 }
 
 .curr {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
-  color: var(--accent-purple);
+  color: var(--accent);
+}
+
+.balance-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: monospace;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--border);
-  padding-top: 8px;
+  border-top: 1px solid rgba(255, 107, 0, 0.15);
+  padding-top: 10px;
+  margin-top: 4px;
 }
 
 .address-text {
-  font-size: 10px;
+  font-size: 11px;
   font-family: monospace;
-  color: var(--text-muted);
+  color: var(--text-main);
+  font-weight: 700;
 }
 
 .card-links {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  align-items: center;
 }
 
 .link-btn {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-muted);
   background: none;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  transition: color 0.15s;
+}
+
+.link-btn:hover {
+  color: var(--text-main);
 }
 
 .link-btn.accent {
-  color: var(--accent-purple);
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.link-btn.accent:hover {
   text-decoration: underline;
 }
 
-/* Action Grid */
+/* ─── Action Grid (matches MobileWalletApp 4-col grid) ─── */
 .action-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
 .action-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 8px 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 10px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   cursor: pointer;
   color: var(--text-main);
   text-decoration: none;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .action-btn:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-accent);
+  background: #f5f5f4;
+  border-color: var(--border);
 }
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn .action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* Individual action icon backgrounds matching MobileWalletApp */
+.action-btn:nth-child(1) .action-icon { background: var(--text-main); color: #fff; }       /* Send: bg-neutral-900 */
+.action-btn:nth-child(2) .action-icon { background: var(--accent); color: #fff; }          /* Receive: bg-[#ff6b00] */
+.action-btn:nth-child(3) .action-icon { background: #F59E0B; color: #fff; }                /* Drip: bg-amber-500 */
 
 .action-btn.game {
-  border-color: var(--border-accent);
-  background: var(--accent-purple-light);
+  background: var(--bg-card-warm);
+  border-color: var(--accent-border);
 }
 
-.action-icon {
-  font-size: 14px;
+.action-btn.game .action-icon {
+  background: rgba(255, 107, 0, 0.15);
+  color: var(--accent-dark);
 }
 
-/* Tabs */
+.action-btn.game span:last-child {
+  color: var(--accent-dark);
+}
+
+/* ─── Tabs (matches border-b border-[#ff6b00] active style) ─── */
 .tabs {
   display: flex;
   border-bottom: 1px solid var(--border);
@@ -349,16 +457,22 @@ h2 {
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  padding: 6px;
+  padding: 8px 4px;
   color: var(--text-muted);
   font-size: 11px;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
 }
 
 .tab-btn.active {
-  color: var(--accent-purple);
-  border-color: var(--accent-purple);
+  color: var(--text-main);
+  border-color: var(--accent);
 }
 
 .tab-pane {
@@ -370,6 +484,7 @@ h2 {
   display: block;
 }
 
+/* ─── History List ─── */
 .history-list {
   max-height: 120px;
   overflow-y: auto;
@@ -380,36 +495,42 @@ h2 {
 
 .empty-state {
   text-align: center;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-muted);
-  padding: 16px 0;
+  padding: 20px 0;
 }
 
 .history-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--bg-card-hover);
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: 10px;
+  background: var(--bg-surface);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  font-size: 11px;
 }
 
+/* ─── Tech Spec Panel (matches MobileWalletApp overview cards) ─── */
 .tech-spec {
-  background: var(--bg-card-hover);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 10px;
+  gap: 8px;
+  font-size: 11px;
 }
 
 .spec-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.spec-row span:first-child {
+  color: var(--text-muted);
 }
 
 .mono {
@@ -418,22 +539,24 @@ h2 {
 
 .green {
   color: var(--emerald);
+  font-weight: 700;
 }
 
 .accent {
-  color: var(--accent-purple);
+  color: var(--accent);
+  font-weight: 700;
 }
 
-/* Modal */
+/* ─── Modal (matches frontend SendModal light style) ─── */
 .modal {
   display: none;
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(10, 10, 10, 0.35);
   backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 20px;
   z-index: 100;
 }
 
@@ -444,17 +567,23 @@ h2 {
 .modal-box {
   width: 100%;
   background: var(--bg-card);
-  border: 1px solid var(--border-accent);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 8px 32px rgba(110, 86, 207, 0.15);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.modal-header h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
 }
 
 .close-btn {
@@ -462,41 +591,47 @@ h2 {
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  transition: color 0.15s;
+}
+
+.close-btn:hover {
+  color: var(--text-main);
 }
 
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .form-group label {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .form-group input {
   width: 100%;
-  padding: 8px;
-  background: var(--bg-card-hover);
+  padding: 10px 12px;
+  background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--text-main);
-  font-size: 11px;
+  font-size: 12px;
   font-family: monospace;
+  transition: border-color 0.15s;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--accent-purple);
-  box-shadow: 0 0 0 3px rgba(110, 86, 207, 0.12);
+  border-color: var(--accent);
 }
 
-/* Footer */
+/* ─── Footer ─── */
 .footer {
   border-top: 1px solid var(--border);
-  padding-top: 8px;
+  padding: 8px 16px;
   text-align: center;
 }
 
@@ -508,8 +643,9 @@ h2 {
   color: var(--text-muted);
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.15s;
 }
 
 .explorer-link:hover {
-  color: var(--accent-purple);
+  color: var(--accent);
 }

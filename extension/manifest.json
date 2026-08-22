@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "MonadPass — Hardware Passkey Wallet",
+  "name": "Aegis Protocol — Hardware Passkey Wallet",
   "version": "1.0.0",
   "description": "Mobile-Native & Desktop Hardware Passkey Smart Wallet for Monad (Precompile 0x0100, 6,900 gas). Zero seed phrases.",
   "action": {

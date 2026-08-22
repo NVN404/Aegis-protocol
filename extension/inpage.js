@@ -1,13 +1,13 @@
 // Injected Web3 Provider (EIP-1193 + EIP-6963)
 (function () {
-  console.log("[MonadPass] Injected Provider Active on Monad Testnet (Chain ID 10143)");
+  console.log("[Aegis] Injected Provider Active on Monad Testnet (Chain ID 10143)");
 
   let requestId = 0;
   const pendingRequests = new Map();
 
   // Listen for responses from extension content script
   window.addEventListener("message", (event) => {
-    if (event.source !== window || !event.data || event.data.target !== "monadpass-inpage") return;
+    if (event.source !== window || !event.data || event.data.target !== "aegis-inpage") return;
     const { id, result, error } = event.data;
     if (pendingRequests.has(id)) {
       const { resolve, reject } = pendingRequests.get(id);
@@ -26,7 +26,7 @@
       pendingRequests.set(id, { resolve, reject });
       window.postMessage(
         {
-          target: "monadpass-content",
+          target: "aegis-content",
           id,
           method,
           params,
@@ -36,8 +36,8 @@
     });
   }
 
-  const monadPassProvider = {
-    isMonadPass: true,
+  const aegisProvider = {
+    isAegis: true,
     isMetaMask: false,
     chainId: "0x279f", // 10143 (Monad Testnet)
     selectedAddress: null,
@@ -69,21 +69,21 @@
     },
 
     on: function (event, handler) {
-      console.log("[MonadPass Provider] Subscribed to event:", event);
+      console.log("[Aegis Provider] Subscribed to event:", event);
     },
     removeListener: function () {},
   };
 
   // 1. Inject as window.monad and window.ethereum (if not already set)
-  window.monad = monadPassProvider;
+  window.monad = aegisProvider;
   if (!window.ethereum) {
-    window.ethereum = monadPassProvider;
+    window.ethereum = aegisProvider;
   }
 
   // 2. Announce via EIP-6963 (Standard Web3 Wallet Discovery)
   const info = {
-    uuid: "monadpass-hardware-wallet",
-    name: "MonadPass",
+    uuid: "aegis-hardware-wallet",
+    name: "Aegis",
     icon: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%230e0a26"/><path d="M18 46V18L32 32L46 18V46" stroke="%23836EF9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
     rdns: "xyz.monad.passkey",
   };
@@ -91,7 +91,7 @@
   function announce() {
     window.dispatchEvent(
       new CustomEvent("eip6963:announceProvider", {
-        detail: Object.freeze({ info, provider: monadPassProvider }),
+        detail: Object.freeze({ info, provider: aegisProvider }),
       })
     );
   }

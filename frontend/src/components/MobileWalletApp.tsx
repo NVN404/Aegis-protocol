@@ -225,7 +225,7 @@ export function MobileWalletApp() {
           </div>
           <div>
             <h1 className="text-xs font-bold tracking-wide text-neutral-900 flex items-center space-x-1.5 leading-none">
-              <span>MONADPASS</span>
+              <span>AEGIS</span>
               <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#ff6b00]/10 text-[#cc5400] font-mono font-bold">
                 POP
               </span>
@@ -240,15 +240,7 @@ export function MobileWalletApp() {
             <span>Testnet 10143</span>
           </div>
 
-          {identity && (
-            <button
-              onClick={() => handleSetIdentity(null)}
-              className="p-1.5 rounded-lg bg-neutral-100 text-neutral-600 hover:bg-rose-50 hover:text-rose-600 text-xs transition"
-              title="Reset / Switch Account"
-            >
-              <RefreshCw size={14} />
-            </button>
-          )}
+
         </div>
       </div>
 

@@ -3,37 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MonadPass</title>
+  <title>Aegis</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
   <div class="app-container">
-    <!-- Header -->
+    <!-- Header (matches MobileWalletApp top status bar) -->
     <header class="header">
       <div class="brand">
-        <div class="logo">M</div>
+        <div class="logo">🛡️</div>
         <div class="title-group">
-          <span class="title">MONADPASS <span class="badge">POP</span></span>
+          <span class="title">AEGIS <span class="badge">POP</span></span>
           <span class="subtitle">Precompile 0x0100 · 6,900 Gas</span>
         </div>
       </div>
       <div class="network-badge">
         <span class="status-dot"></span>
-        <span>10143</span>
+        <span>Testnet 10143</span>
       </div>
     </header>
 
     <!-- Main View: Onboarding OR Dashboard -->
     <main id="main-content">
-      <!-- Onboarding State -->
+      <!-- Onboarding State (matches MobileWalletApp unauthenticated) -->
       <section id="onboarding-view" class="view active">
         <div class="hero-icon">
           <div class="glow"></div>
-          <div class="icon-box">⚡</div>
+          <div class="icon-box">👆</div>
         </div>
         <h2>Laptop Hardware Identity</h2>
         <p class="desc">
-          Zero seed phrases. 1-Tap TouchID / Windows Hello creates your Monad Smart Account.
+          Zero seed phrases. 1-Tap TouchID / Windows Hello creates your Monad Smart Account verified by Precompile <span class="accent-mono">0x0100</span>.
         </p>
         <button id="btn-create-hardware" class="btn btn-primary">
           <span>👆 Create with TouchID</span>
@@ -45,7 +45,7 @@
 
       <!-- Authenticated Wallet Dashboard -->
       <section id="dashboard-view" class="view">
-        <!-- Balance Card -->
+        <!-- Balance Card (matches bg-[#fffaf5] border-[#ff6b00]/30) -->
         <div class="balance-card">
           <div class="card-header">
             <span id="device-label" class="device-label">Apple TouchID</span>
@@ -55,6 +55,7 @@
             <span id="balance-val">0.00</span>
             <span class="curr">MON</span>
           </div>
+          <span class="balance-sub">Monad Testnet Native Balance</span>
           <div class="card-footer">
             <span id="account-address" class="address-text">0x000...0000</span>
             <div class="card-links">
@@ -64,7 +65,7 @@
           </div>
         </div>
 
-        <!-- Quick Action Buttons -->
+        <!-- Quick Action Buttons (matches 4-col grid) -->
         <div class="action-grid">
           <button id="btn-action-send" class="action-btn">
             <div class="action-icon">↗</div>

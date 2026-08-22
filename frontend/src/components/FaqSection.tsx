@@ -21,7 +21,7 @@ export function FaqSection() {
     },
     {
       q: "Can I connect Aegis to existing Web3 dApps?",
-      a: "Yes. The Aegis Laptop Extension is Manifest V3 compliant and injects standard EIP-1193 and EIP-6963 providers (window.ethereum and window.monad). Any DEX, NFT marketplace, or game automatically detects 'MonadPass' and allows 1-tap TouchID login.",
+      a: "Yes. The Aegis Laptop Extension is Manifest V3 compliant and injects standard EIP-1193 and EIP-6963 providers (window.ethereum and window.monad). Any DEX, NFT marketplace, or game automatically detects 'Aegis' and allows 1-tap TouchID login.",
     },
     {
       q: "How does Aegis differ from Worldcoin?",

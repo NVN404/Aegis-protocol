@@ -1,6 +1,6 @@
 {
   "appId": "xyz.monad.passkey",
-  "appName": "MonadPass",
+  "appName": "Aegis Protocol",
   "webDir": "out",
   "server": {
     "url": "http://localhost:3005",

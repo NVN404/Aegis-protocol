@@ -115,7 +115,7 @@ By leveraging **Monad's native Precompile `0x0100`**, Aegis verifies biometric h
 
 ### 1. 🦊 Laptop Browser Extension (`/extension`)
 * **Manifest V3 Compliant:** Full Chrome, Brave, Edge, and Opera support.
-* **EIP-1193 & EIP-6963 Injected Provider:** Injects `window.ethereum` and `window.monad`. Any Web3 dApp (DEXs, Marketplaces, Games) automatically detects **"MonadPass (Hardware Passkey)"**.
+* **EIP-1193 & EIP-6963 Injected Provider:** Injects `window.ethereum` and `window.monad`. Any Web3 dApp (DEXs, Marketplaces, Games) automatically detects **"Aegis Protocol (Hardware Passkey)"**.
 * **1-Tap TouchID:** Sign transactions and manage assets without extensions passwords or seed phrases.
 
 ### 2. 📱 Mobile Wallet App (`/frontend`)
@@ -124,8 +124,8 @@ By leveraging **Monad's native Precompile `0x0100`**, Aegis verifies biometric h
 * **Live History Dock:** Real-time on-chain transaction tracker with direct MonadScan explorer links.
 
 ### 3. 🛠️ Modular TypeScript SDK (`/sdk`)
-* **`@monad-passkey/core`:** High-level client (`MonadPassClient`) for creating passkeys, generating CREATE2 addresses, and executing contract calls.
-* **`@monad-passkey/react`:** React hooks (`useMonadPass()`, `usePasskeyAccount()`) and UI components (`<MonadPassButton />`).
+* **`@monad-passkey/core`:** High-level client (`AegisClient`) for creating passkeys, generating CREATE2 addresses, and executing contract calls.
+* **`@monad-passkey/react`:** React hooks (`useAegis()`, `usePasskeyAccount()`) and UI components (`<AegisButton />`).
 * **`@monad-passkey/contracts`:** Typed ABIs and deployed Monad Testnet addresses.
 * **Starter Template:** Fully functional demo in `/sdk/apps/example-nextjs`.
 
@@ -215,14 +215,14 @@ npm run dev
 1. Open `chrome://extensions`.
 2. Toggle on **"Developer mode"** (top right).
 3. Click **"Load unpacked"** and select the `/extension` folder.
-4. Pin **MonadPass** to your toolbar and tap **"Create with TouchID"**!
+4. Pin **Aegis Protocol** to your toolbar and tap **"Create with TouchID"**!
 
 ### 3. Use the SDK in your Project:
 ```typescript
-import { MonadPassClient } from "@monad-passkey/core";
+import { AegisClient } from "@monad-passkey/core";
 
 // 1. Initialize client on Monad Testnet
-const client = new MonadPassClient({ chainId: 10143 });
+const client = new AegisClient({ chainId: 10143 });
 
 // 2. 1-Tap TouchID / FaceID Login (Zero seed phrases!)
 const account = await client.connect();

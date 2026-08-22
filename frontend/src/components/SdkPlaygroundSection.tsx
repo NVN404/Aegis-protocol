@@ -17,10 +17,10 @@ export function SdkPlaygroundSection() {
   const [simOutput, setSimOutput] = useState<string[] | null>(null);
 
   const codeSnippets = {
-    client: `import { MonadPassClient } from "@monad-passkey/core";
+    client: `import { AegisClient } from "@monad-passkey/core";
 
 // 1. Initialize client on Monad Testnet (Chain ID 10143)
-const client = new MonadPassClient({ 
+const client = new AegisClient({ 
   chainId: 10143,
   rpcUrl: "https://testnet-rpc.monad.xyz"
 });
@@ -38,17 +38,17 @@ const tx = await client.execute({
 console.log("Confirmed in Monad Block in 0.04s:", tx.hash);`,
 
     react: `import React from "react";
-import { useMonadPass, MonadPassButton } from "@monad-passkey/react";
+import { useAegis, AegisButton } from "@monad-passkey/react";
 
 export function ConnectWalletHeader() {
-  const { account, isConnected, connect, sendTransaction } = useMonadPass();
+  const { account, isConnected, connect, sendTransaction } = useAegis();
 
   return (
     <header className="flex items-center justify-between p-4">
       <h1 className="font-bold">My Monad dApp</h1>
 
       {!isConnected ? (
-        <MonadPassButton 
+        <AegisButton 
           onSuccess={(acc) => console.log("Logged in with TouchID:", acc.address)}
           label="1-Tap Biometric Login"
         />

@@ -1,4 +1,4 @@
-// MonadPass Background Service Worker
+// Aegis Background Service Worker
 const MONAD_RPC = "https://testnet-rpc.monad.xyz";
 const RELAYER_API = "http://localhost:3006";
 
@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 async function handleRequest({ method, params }) {
-  console.log(`[MonadPass Background] Handling RPC: ${method}`, params);
+  console.log(`[Aegis Background] Handling RPC: ${method}`, params);
 
   switch (method) {
     case "eth_chainId":
@@ -49,7 +49,7 @@ async function handleRequest({ method, params }) {
       const txParams = params[0];
       const data = await chrome.storage.local.get("monad_passkey_account");
       if (!data || !data.monad_passkey_account) {
-        throw new Error("No active MonadPass account found. Open MonadPass extension to unlock.");
+        throw new Error("No active Aegis account found. Open Aegis extension to unlock.");
       }
 
       const account = data.monad_passkey_account;

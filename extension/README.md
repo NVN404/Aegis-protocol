@@ -1,6 +1,6 @@
 # 🛡️ Aegis Protocol — Browser Extension
 
-**MonadPass** is the Aegis Protocol browser extension wallet. It lets you create a hardware-bound Monad Smart Account using your laptop's **TouchID / Windows Hello / Fingerprint** sensor — zero seed phrases, zero cloud keys.
+**Aegis** is the Aegis Protocol browser extension wallet. It lets you create a hardware-bound Monad Smart Account using your laptop's **TouchID / Windows Hello / Fingerprint** sensor — zero seed phrases, zero cloud keys.
 
 ---
 
@@ -34,8 +34,8 @@ The extension lives in the `/extension` folder.
 ### Step 4: Pin & Use
 
 1. Click the puzzle icon 🧩 in your browser toolbar
-2. Find **MonadPass** and click the 📌 pin icon
-3. Click the MonadPass icon to open the wallet popup
+2. Find **Aegis** and click the 📌 pin icon
+3. Click the Aegis icon to open the wallet popup
 4. Tap **"👆 Create with TouchID"** to generate your hardware-bound wallet!
 
 ---

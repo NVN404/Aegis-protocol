@@ -1,4 +1,4 @@
-// MonadPass Popup Logic
+// Aegis Popup Logic
 const MONAD_RPC = "https://testnet-rpc.monad.xyz";
 const RELAYER_API = "http://localhost:3006";
 
@@ -78,7 +78,7 @@ async function handleCreateHardware() {
     const cred = await navigator.credentials.create({
       publicKey: {
         challenge,
-        rp: { name: "MonadPass Laptop Wallet", id: window.location.hostname || "localhost" },
+        rp: { name: "Aegis Laptop Wallet", id: window.location.hostname || "localhost" },
         user: { id: userId, name: "monad.user", displayName: "Monad Laptop Human" },
         pubKeyCredParams: [{ type: "public-key", alg: -7 }],
         authenticatorSelection: { userVerification: "preferred" },
