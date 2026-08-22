@@ -23,10 +23,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract FallGuysArena is ReentrancyGuard, Ownable {
     // ─── Constants ────────────────────────────────────────────────────────────
 
-    uint256 public constant ENTRY_FEE       = 1 ether;  // 1 MON
+    uint256 public constant ENTRY_FEE       = 0.5 ether;  // 0.5 MON
     uint8   public constant TOTAL_CHECKPOINTS = 3;
     uint8   public constant MAX_PLAYERS     = 100;
-    uint256 public constant TIER_PAYOUT     = 0.25 ether; // 0.25 MON per checkpoint tier
+    uint256 public constant TIER_PAYOUT     = 0.125 ether; // 0.125 MON per checkpoint tier
 
     // ─── State ────────────────────────────────────────────────────────────────
 
