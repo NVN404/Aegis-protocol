@@ -129,8 +129,8 @@ By leveraging **Monad's native Precompile `0x0100`**, Aegis verifies biometric h
 * **Auto-Deployment Pipeline:** Deploys smart accounts and funds them with 0.50 MON in a single automated step.
 
 ### 6. 🎮 Fall Guys Arena Integration (`/fall-guys-monad`)
-* **100% On-Chain 3D Game:** Pay 0.10 MON entry fee, race through obstacles, and earn checkpoint rewards on Monad.
-* **1-Tap Passkey Play:** Uses the Aegis smart account for sub-second tournament entry and prize payouts.
+* **100% On-Chain 3D Game:** Pay **0.50 MON** entry fee, race through physics obstacles, and earn automated streaming checkpoint rewards (`+0.125`, `+0.25`, `+0.375`, `+0.50 MON`) directly to your wallet on Monad!
+* **Dual Wallet Options:** 1-Tap Biometric TouchID Passkey Smart Account or External Web3 Wallet (MetaMask/Rainbow).
 
 ---
 
@@ -162,13 +162,28 @@ And signs a message digest producing the signature $(r, s)$.
 
 ---
 
-## 🚀 Live Smart Contract Deployments (Monad Testnet 10143)
+## 🚀 Live Deployed & Verified Contracts (Monad Testnet 10143)
 
-| Contract | Address on Monad Testnet | Explorer Link |
-| :--- | :--- | :--- |
-| **PasskeyAccountFactory** | `0x29373c0172c89eA61df297ca76A252815b012bd1` | [View on MonadVision ↗](https://testnet.monadvision.com/address/0x29373c0172c89eA61df297ca76A252815b012bd1) |
-| **ProofOfPersonhoodRegistry** | `0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4` | [View on MonadVision ↗](https://testnet.monadvision.com/address/0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4) |
-| **Precompile 0x0100** | `0x0000000000000000000000000000000000000100` | Native Monad Kernel |
+| Contract Name | Address on Monad Testnet | Block Explorer Links | Sourcify Verification |
+| :--- | :--- | :--- | :--- |
+| **PasskeyAccountFactory** | `0x29373c0172c89eA61df297ca76A252815b012bd1` | [MonadVision ↗](https://testnet.monadvision.com/address/0x29373c0172c89eA61df297ca76A252815b012bd1) · [MonadExplorer ↗](https://testnet.monadexplorer.com/address/0x29373c0172c89eA61df297ca76A252815b012bd1) | [Sourcify Job #0cf6545a ↗](https://sourcify.dev/server/v2/verify/0cf6545a-33eb-4f23-9a20-c46a662f95fc) |
+| **ProofOfPersonhoodRegistry** | `0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4` | [MonadVision ↗](https://testnet.monadvision.com/address/0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4) · [MonadExplorer ↗](https://testnet.monadexplorer.com/address/0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4) | [Sourcify Job #bff58172 ↗](https://sourcify.dev/server/v2/verify/bff58172-7efa-4166-b96a-b60442987c63) |
+| **FallGuysArena** | `0xDFAA6355BB05A3a6a247D2F6c5BB4C288AcD39af` | [MonadVision ↗](https://testnet.monadvision.com/address/0xDFAA6355BB05A3a6a247D2F6c5BB4C288AcD39af) · [MonadExplorer ↗](https://testnet.monadexplorer.com/address/0xDFAA6355BB05A3a6a247D2F6c5BB4C288AcD39af) | [Sourcify Job #96dcc3c1 ↗](https://sourcify.dev/server/v2/verify/96dcc3c1-f431-44c7-a4c2-4c83223a7083) |
+| **Monad Precompile 0x0100** | `0x0000000000000000000000000000000000000100` | Native Monad Kernel | EIP-7951 / RIP-7212 Engine |
+
+> 📁 **Flattened Source Code:**
+> * [PasskeyAccountFactory.flattened.sol](contracts/src/PasskeyAccountFactory.flattened.sol)
+> * [ProofOfPersonhoodRegistry.flattened.sol](contracts/src/ProofOfPersonhoodRegistry.flattened.sol)
+> * [FallGuysArena.flattened.sol](fall-guys-monad/contracts/src/FallGuysArena.flattened.sol)
+
+---
+
+## 🏆 Hackathon Submission & Pitch Checklist
+
+* **Public GitHub Repo (25 pts):** [https://github.com/NVN404/Aegis-protocol](https://github.com/NVN404/Aegis-protocol)
+* **Contract Deployments (25 pts):** `0x29373c...` & `0xeE575e...` (Chain ID 10143)
+* **Contract Verification (25 pts):** 100% Verified on Sourcify & MonadVision
+* **Live Demo (25 pts):** 1-Tap Biometric Smart Account creation with instant 400ms Monad Testnet execution!
 
 ---
 
