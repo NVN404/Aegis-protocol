@@ -1,54 +1,132 @@
 "use client";
 
-import React from "react";
-import { MobileWalletApp } from "@/components/MobileWalletApp";
-import { Lightning, ArrowSquareOut, ShieldCheck } from "@phosphor-icons/react";
+import React, { useState } from "react";
+import { Navbar } from "@/components/Navbar";
+import { HardwareSimulator } from "@/components/HardwareSimulator";
+import { ParadigmMatrix } from "@/components/ParadigmMatrix";
+import { GasBenchmark } from "@/components/GasBenchmark";
+import { EcosystemTabs } from "@/components/EcosystemTabs";
+import { SdkPlayground } from "@/components/SdkPlayground";
+import { LiveContracts } from "@/components/LiveContracts";
+import { Footer } from "@/components/Footer";
+import { MobileSandboxModal } from "@/components/MobileSandboxModal";
+import {
+  Fingerprint,
+  ShieldCheck,
+  Lightning,
+  Cpu,
+  ArrowRight,
+  Code,
+  CheckCircle,
+  DeviceMobile,
+  LockKey,
+} from "@phosphor-icons/react";
 
 export default function Home() {
+  const [isSandboxOpen, setIsSandboxOpen] = useState(false);
+
   return (
-    <main className="min-h-screen bg-[#03010b] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Dynamic Background Glows */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#836EF9]/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[#20E2D7]/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="min-h-screen bg-[oklch(14%_0.02_285)] text-[oklch(96%_0.005_285)] selection:bg-[oklch(62%_0.22_285/0.3)] selection:text-[oklch(82%_0.16_195)]">
+      {/* Floating Pill Navigation */}
+      <Navbar onOpenWallet={() => setIsSandboxOpen(true)} />
 
-      {/* Top Banner on Desktop */}
-      <div className="text-center mb-6 max-w-lg">
-        <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#20E2D7] text-xs font-mono font-bold mb-3 shadow-sm">
-          <Lightning size={14} weight="fill" />
-          <span>MONAD PRECOMPILE 0x0100 · 6,900 GAS · SUB-SECOND EVM</span>
+      {/* ─── 1. HIGH-PRECISION WORKBENCH HERO ─── */}
+      <section className="pt-32 pb-20 px-4 max-w-6xl mx-auto relative">
+        {/* Subtle Background Radial Anchor */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[oklch(62%_0.22_285/0.12)] rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+        <div className="text-center max-w-4xl mx-auto space-y-6">
+          {/* Top Kernel Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[oklch(18%_0.025_285)] border border-[oklch(28%_0.035_285)] text-[oklch(82%_0.16_195)] text-xs font-mono font-semibold shadow-sm">
+            <Lightning size={14} weight="fill" />
+            <span>MONAD PRECOMPILE 0x0100 · 6,900 FLAT GAS · EIP-7951</span>
+          </div>
+
+          {/* Solid Roman Display Headline (Hallmark rule: No AI gradient text, no italic headers) */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-display leading-[1.08]">
+            The Sovereign, Seedless Hardware Wallet for Monad.
+          </h1>
+
+          {/* Lede Text */}
+          <p className="text-base sm:text-lg text-[oklch(74%_0.015_285)] max-w-2xl mx-auto leading-relaxed">
+            Turns the Apple Secure Enclave &amp; Android Titan M2 silicon in 3+ billion phones into sovereign smart contract accounts. Verified on-chain in 6,900 gas. Zero seed phrases. Zero cloud middlemen. Zero iris scans.
+          </p>
+
+          {/* Action CTAs */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
+            <button
+              onClick={() => setIsSandboxOpen(true)}
+              className="btn-primary py-3 px-6 text-sm flex items-center gap-2 cursor-pointer shadow-xl shadow-[oklch(62%_0.22_285/0.3)]"
+            >
+              <Fingerprint size={20} weight="bold" />
+              <span>Launch Live Passkey Wallet</span>
+              <ArrowRight size={16} />
+            </button>
+
+            <a
+              href="#sdk"
+              className="btn-secondary py-3 px-6 text-sm flex items-center gap-2"
+            >
+              <Code size={18} />
+              <span>Explore TypeScript SDK</span>
+            </a>
+          </div>
+
+          {/* 4 Proof Metric Anchors */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 text-left">
+            <div className="p-4 rounded-xl bg-[oklch(18%_0.025_285)] border border-[oklch(24%_0.03_285)]">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">6,900</div>
+              <div className="text-xs text-[oklch(74%_0.015_285)] mt-0.5">Flat Gas Cost (-98.2%)</div>
+              <div className="text-[10px] text-[oklch(56%_0.02_285)] mt-1 font-mono">Precompile 0x0100</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[oklch(18%_0.025_285)] border border-[oklch(24%_0.03_285)]">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-[oklch(82%_0.16_195)]">&lt; 0.05ms</div>
+              <div className="text-xs text-[oklch(74%_0.015_285)] mt-0.5">Verification Latency</div>
+              <div className="text-[10px] text-[oklch(56%_0.02_285)] mt-1 font-mono">10,000 TPS Monad EVM</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[oklch(18%_0.025_285)] border border-[oklch(24%_0.03_285)]">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-[oklch(78%_0.18_155)]">1 Device</div>
+              <div className="text-xs text-[oklch(74%_0.015_285)] mt-0.5">= 1 Verified Human</div>
+              <div className="text-[10px] text-[oklch(56%_0.02_285)] mt-1 font-mono">Silicon Anti-Sybil Registry</div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[oklch(18%_0.025_285)] border border-[oklch(24%_0.03_285)]">
+              <div className="text-2xl sm:text-3xl font-extrabold font-mono text-white">0 SaaS</div>
+              <div className="text-xs text-[oklch(74%_0.015_285)] mt-0.5">Zero Cloud Middlemen</div>
+              <div className="text-[10px] text-[oklch(56%_0.02_285)] mt-1 font-mono">Pure Smart Accounts</div>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-          Monad<span className="bg-gradient-to-r from-[#836EF9] via-[#A78BFA] to-[#20E2D7] bg-clip-text text-transparent">Pass</span>
-        </h1>
-        <p className="text-xs text-gray-400 mt-1">
-          The Mobile-Native Proof of Personhood &amp; Hardware Passkey Wallet for Monad
-        </p>
-      </div>
+      </section>
 
-      {/* Mobile Wallet Screen Container */}
-      <div className="w-full max-w-md z-10">
-        <MobileWalletApp />
-      </div>
+      {/* ─── 2. INTERACTIVE CRYPTOGRAPHY SIMULATOR ─── */}
+      <HardwareSimulator />
 
-      {/* Footer Info */}
-      <footer className="mt-8 text-center text-xs text-gray-500 space-y-1">
-        <p>1 Phone = 1 Verified Human · Hardware Secp256r1 Silicon Security</p>
-        <p className="font-mono text-[10px] text-gray-600">Built for Monad Ecosystem &amp; Fall Guys Arena</p>
-      </footer>
+      {/* ─── 3. PARADIGM MATRIX: AEGIS VS CLOUD WAAS VS WORLDCOIN ─── */}
+      <ParadigmMatrix />
 
-      {/* ─── Bottom-Right Floating Explorer Dock ─── */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
-        <a
-          href="https://testnet.monadexplorer.com"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center space-x-2 px-3.5 py-2 rounded-2xl bg-[#0e0a26]/90 hover:bg-[#19133f] border border-[#836EF9]/40 text-white shadow-2xl backdrop-blur-xl transition active:scale-95 group text-xs font-bold"
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="text-gray-300 group-hover:text-white">Monad Testnet Explorer</span>
-          <ArrowSquareOut size={14} className="text-[#20E2D7]" />
-        </a>
-      </div>
-    </main>
+      {/* ─── 4. GAS & LATENCY BENCHMARK ENGINE ─── */}
+      <GasBenchmark />
+
+      {/* ─── 5. ECOSYSTEM SHOWCASE ─── */}
+      <EcosystemTabs onOpenWallet={() => setIsSandboxOpen(true)} />
+
+      {/* ─── 6. DEVELOPER QUICKSTART / SDK PLAYGROUND ─── */}
+      <SdkPlayground />
+
+      {/* ─── 7. LIVE CONTRACT DEPLOYMENTS ─── */}
+      <LiveContracts />
+
+      {/* ─── 8. STATEMENT FOOTER (Ft5) ─── */}
+      <Footer />
+
+      {/* ─── 9. INTERACTIVE LIVE WALLET MODAL SANDBOX ─── */}
+      <MobileSandboxModal
+        isOpen={isSandboxOpen}
+        onClose={() => setIsSandboxOpen(false)}
+      />
+    </div>
   );
 }
