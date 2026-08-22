@@ -11,19 +11,27 @@ import { GasBenchmarkSection } from "@/components/GasBenchmarkSection";
 import { LiveContractsSection } from "@/components/LiveContractsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { InteractiveWalletModal } from "@/components/InteractiveWalletModal";
+import { MobileQrModal } from "@/components/MobileQrModal";
 import { Footer } from "@/components/Footer";
-import { Smartphone, ExternalLink, Fingerprint } from "lucide-react";
+import { Smartphone, ExternalLink, Fingerprint, QrCode } from "lucide-react";
 
 export default function Home() {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#f5f4f2] text-[#0a0a0a] flex flex-col relative overflow-x-hidden pb-16 sm:pb-0">
       {/* Floating Pill Navbar */}
-      <Navbar onOpenWallet={() => setIsWalletModalOpen(true)} />
+      <Navbar
+        onOpenWallet={() => setIsWalletModalOpen(true)}
+        onOpenQr={() => setIsQrModalOpen(true)}
+      />
 
       {/* Hero Section */}
-      <HeroSection onOpenWallet={() => setIsWalletModalOpen(true)} />
+      <HeroSection
+        onOpenWallet={() => setIsWalletModalOpen(true)}
+        onOpenQr={() => setIsQrModalOpen(true)}
+      />
 
       {/* The Paradigm Shift: Why Aegis Wins */}
       <ParadigmShiftSection />
@@ -55,6 +63,12 @@ export default function Home() {
         onClose={() => setIsWalletModalOpen(false)}
       />
 
+      {/* Mobile QR Code Scanner Modal */}
+      <MobileQrModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+      />
+
       {/* ─── Bottom Floating Quick Launch Dock (Mobile & Desktop) ─── */}
       <aside
         aria-label="Quick launch tools"
@@ -67,6 +81,16 @@ export default function Home() {
         >
           <Fingerprint size={16} />
           <span>Launch Passkey Wallet</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setIsQrModalOpen(true)}
+          className="hidden sm:flex items-center space-x-1.5 px-3 py-2.5 rounded-full bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-800 shadow-md transition active:scale-95 text-xs font-bold cursor-pointer"
+          title="Scan QR code on your phone"
+        >
+          <QrCode size={14} className="text-[#ff6b00]" />
+          <span>QR</span>
         </button>
 
         <a

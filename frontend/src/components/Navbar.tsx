@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShieldCheck, Smartphone, Menu, X, ExternalLink } from "lucide-react";
+import { ShieldCheck, Smartphone, Menu, X, QrCode } from "lucide-react";
 
 interface NavbarProps {
   onOpenWallet: () => void;
+  onOpenQr?: () => void;
 }
 
-export function Navbar({ onOpenWallet }: NavbarProps) {
+export function Navbar({ onOpenWallet, onOpenQr }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -56,6 +57,19 @@ export function Navbar({ onOpenWallet }: NavbarProps) {
 
         {/* Action Controls Pill */}
         <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-neutral-200/90 bg-white/90 p-1 sm:p-1.5 shadow-[0_4px_16px_-4px_rgba(15,15,15,0.08)] backdrop-blur-md">
+          {/* Scan QR Button for Mobile Testing on Desktop */}
+          {onOpenQr && (
+            <button
+              type="button"
+              onClick={onOpenQr}
+              className="hidden md:inline-flex h-8 sm:h-9 items-center gap-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200/80 px-3 text-[12px] font-bold text-neutral-800 transition active:scale-95 cursor-pointer"
+              title="Scan QR Code to open on Mobile Phone"
+            >
+              <QrCode size={14} className="text-[#ff6b00]" />
+              <span>Scan QR</span>
+            </button>
+          )}
+
           {/* GitHub Pill (Hidden on very small screens) */}
           <a
             href="https://github.com/NVN404/Aegis-protocol"

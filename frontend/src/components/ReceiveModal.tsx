@@ -13,6 +13,9 @@ interface ReceiveModalProps {
 
 export function ReceiveModal({ isOpen, onClose, identity }: ReceiveModalProps) {
   const [copied, setCopied] = useState(false);
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+    identity.counterfactualAddress
+  )}&color=0a0a0a&bgcolor=ffffff&margin=6`;
 
   if (!isOpen) return null;
 
@@ -31,8 +34,9 @@ export function ReceiveModal({ isOpen, onClose, identity }: ReceiveModalProps) {
         className="w-full max-w-sm rounded-3xl bg-white border border-neutral-200/90 p-6 text-neutral-900 shadow-2xl relative text-center"
       >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-900 transition"
+          className="absolute top-4 right-4 p-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-900 transition cursor-pointer"
         >
           <X size={16} />
         </button>
@@ -42,14 +46,18 @@ export function ReceiveModal({ isOpen, onClose, identity }: ReceiveModalProps) {
         </div>
 
         <h3 className="font-bold text-base text-neutral-900">Receive Monad (MON)</h3>
-        <p className="text-xs text-neutral-500 mb-4">Send testnet MON or tokens to this hardware address</p>
+        <p className="text-xs text-neutral-500 mb-3">Send testnet MON or tokens to this hardware address</p>
 
-        {/* QR Simulation Box */}
-        <div className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200 mx-auto w-48 h-48 flex flex-col items-center justify-center mb-4">
-          <div className="w-full h-full border-2 border-dashed border-neutral-300 rounded-xl flex flex-col items-center justify-center text-neutral-800 p-2 text-center">
-            <QrCode size={72} className="text-neutral-900" />
-            <span className="text-[9px] font-mono font-bold text-neutral-600 mt-1">MONAD PASSKEY WALLET</span>
-          </div>
+        {/* Real Dynamic QR Code */}
+        <div className="p-3 rounded-2xl bg-neutral-50 border border-neutral-200 mx-auto w-48 h-48 flex flex-col items-center justify-center mb-4 shadow-inner">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={qrCodeUrl}
+            alt="Receive Address QR Code"
+            width={160}
+            height={160}
+            className="rounded-xl shadow-xs"
+          />
         </div>
 
         {/* Address Display */}
@@ -62,7 +70,7 @@ export function ReceiveModal({ isOpen, onClose, identity }: ReceiveModalProps) {
 
         <button
           onClick={handleCopy}
-          className="w-full py-3 rounded-xl bg-[#0a0a0a] hover:bg-[#222] text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-sm transition active:scale-95"
+          className="w-full py-3 rounded-xl bg-[#0a0a0a] hover:bg-[#222] text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-sm transition active:scale-95 cursor-pointer"
         >
           {copied ? <Check size={16} className="text-emerald-400 font-bold" /> : <Copy size={16} />}
           <span>{copied ? "Copied to Clipboard!" : "Copy Address"}</span>

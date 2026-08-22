@@ -30,6 +30,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aegis-protocol-sand-gamma.vercel.app"),
   title: "Aegis Protocol | Hardware Passkey Smart Account & Silicon Proof of Personhood",
   description:
     "The Sovereign, Seedless Hardware Wallet & Anti-Sybil Protocol for Monad — powered natively by Precompile 0x0100 (EIP-7951 / RIP-7212) in 6,900 gas.",
@@ -51,6 +52,22 @@ export const metadata: Metadata = {
     apple: "/icon.png",
   },
   manifest: "/manifest.json",
+  openGraph: {
+    title: "Aegis Protocol — Hardware Passkey Smart Account on Monad",
+    description: "6,900 Gas. Trapped in Silicon. Zero Seed Phrases.",
+    url: "https://aegis-protocol-sand-gamma.vercel.app",
+    siteName: "Aegis Protocol",
+    images: [
+      {
+        url: "/icon.png",
+        width: 512,
+        height: 512,
+        alt: "Aegis Protocol Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

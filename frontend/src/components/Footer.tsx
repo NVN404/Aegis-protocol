@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { ShieldCheck, ExternalLink } from "lucide-react";
+import { ShieldCheck, ExternalLink, Smartphone } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="relative bg-[#eeece8] border-t border-neutral-300/70 py-12 text-neutral-800 text-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-8 border-b border-neutral-300/80">
+      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-8 border-b border-neutral-300/80">
           {/* Logo & Description */}
-          <div className="max-w-md">
+          <div className="lg:col-span-4 max-w-md">
             <div className="flex items-center gap-2.5">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0a0a0a] text-white">
                 <ShieldCheck size={18} className="text-[#ff6b00]" />
@@ -26,7 +26,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap gap-8 text-xs font-semibold text-neutral-700">
+          <div className="lg:col-span-5 flex flex-wrap gap-8 text-xs font-semibold text-neutral-700">
             <div className="space-y-2.5">
               <span className="font-mono text-[10px] uppercase text-neutral-400 font-bold block">Protocol</span>
               <a href="#paradigm" className="block hover:text-[#ff6b00] transition">
@@ -84,6 +84,27 @@ export function Footer() {
                 <span>Monad Docs</span>
                 <ExternalLink size={12} />
               </a>
+            </div>
+          </div>
+
+          {/* Test on Mobile QR Box */}
+          <div className="lg:col-span-3 rounded-2xl bg-white p-4 border border-neutral-300/80 shadow-xs flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/mobile-qr.png"
+              alt="Scan to test on Mobile"
+              width={72}
+              height={72}
+              className="rounded-lg shrink-0 border border-neutral-200"
+            />
+            <div className="space-y-1 text-xs">
+              <span className="inline-flex items-center gap-1 font-bold text-neutral-900">
+                <Smartphone size={13} className="text-[#ff6b00]" />
+                <span>Test in Mobile</span>
+              </span>
+              <p className="text-[11px] text-neutral-500 leading-tight">
+                Scan with your phone camera to test FaceID &amp; TouchID
+              </p>
             </div>
           </div>
         </div>

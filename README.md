@@ -2,12 +2,20 @@
 
 > **The Sovereign, Seedless Hardware Wallet & Anti-Sybil Protocol for Monad — powered natively by Precompile `0x0100` (EIP-7951 / RIP-7212) in 6,900 gas.**
 
+[![Live App](https://img.shields.io/badge/Live%20Demo-aegis--protocol.vercel.app-FF6B00?style=for-the-badge&logo=vercel)](https://aegis-protocol-sand-gamma.vercel.app/)
 [![Monad Testnet](https://img.shields.io/badge/Network-Monad%20Testnet%20(10143)-836EF9?style=for-the-badge&logo=monad)](https://testnet.monadexplorer.com/)
 [![Precompile 0x0100](https://img.shields.io/badge/Precompile-0x0100%20(EIP--7951)-20E2D7?style=for-the-badge)](https://docs.monad.xyz)
 [![Gas Cost](https://img.shields.io/badge/Gas%20Cost-6%2C900%20Flat%20(-98.2%25)-10B981?style=for-the-badge)](https://docs.monad.xyz)
 [![Foundry](https://img.shields.io/badge/Foundry-9%2F9%20Tests%20Passing-orange?style=for-the-badge)](https://getfoundry.sh)
 [![Chrome Extension](https://img.shields.io/badge/Extension-Manifest%20V3%20(EIP--6963)-FF7A00?style=for-the-badge)](./extension)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+> 🚀 **Live Production Deployment**: [https://aegis-protocol-sand-gamma.vercel.app/](https://aegis-protocol-sand-gamma.vercel.app/)  
+> 📱 **You can test our app in mobile too!** Scan the QR code below with your iPhone or Android camera to experience 1-tap hardware TouchID & FaceID WebAuthn on Monad:
+> 
+> <img src="./assets/mobile-qr.png" width="180" alt="Scan to test Aegis Protocol on Mobile" />
+
+
 
 ---
 

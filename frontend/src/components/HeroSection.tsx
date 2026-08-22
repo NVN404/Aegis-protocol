@@ -10,13 +10,15 @@ import {
   Smartphone,
   Cpu,
   Terminal,
+  QrCode,
 } from "lucide-react";
 
 interface HeroSectionProps {
   onOpenWallet: () => void;
+  onOpenQr?: () => void;
 }
 
-export function HeroSection({ onOpenWallet }: HeroSectionProps) {
+export function HeroSection({ onOpenWallet, onOpenQr }: HeroSectionProps) {
   const [activeCommandTab, setActiveCommandTab] = useState<"npm" | "npx" | "forge">("npm");
   const [copied, setCopied] = useState(false);
   const [simulatedState, setSimulatedState] = useState<"idle" | "touching" | "verified">("idle");
@@ -148,22 +150,30 @@ export function HeroSection({ onOpenWallet }: HeroSectionProps) {
             </div>
 
             {/* Desktop CTA Buttons */}
-            <div className="hidden sm:flex mt-8 w-full max-w-xl flex-row items-center gap-3.5">
+            <div className="hidden sm:flex mt-8 w-full max-w-xl flex-row items-center gap-3">
               <button
                 type="button"
                 onClick={onOpenWallet}
-                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-[#0a0a0a] px-7 py-4 text-[15px] font-bold text-white shadow-[0_14px_32px_-8px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.14)] ring-1 ring-black/40 transition-all hover:bg-[#181818] hover:shadow-[0_20px_40px_-8px_rgba(255,107,0,0.3)] active:scale-[0.98] cursor-pointer"
+                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-[#0a0a0a] px-6 py-3.5 text-[14px] font-bold text-white shadow-[0_14px_32px_-8px_rgba(0,0,0,0.55)] ring-1 ring-black/40 transition-all hover:bg-[#181818] active:scale-[0.98] cursor-pointer"
               >
-                <Smartphone size={18} className="text-[#ff6b00]" />
-                <span>Launch Interactive Wallet</span>
-                <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-mono text-neutral-300">
-                  Live
-                </span>
+                <Smartphone size={16} className="text-[#ff6b00]" />
+                <span>Launch Wallet</span>
               </button>
+
+              {onOpenQr && (
+                <button
+                  type="button"
+                  onClick={onOpenQr}
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-neutral-300 bg-white px-5 py-3.5 text-[14px] font-semibold text-neutral-900 shadow-sm transition-all hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] cursor-pointer"
+                >
+                  <QrCode size={16} className="text-[#ff6b00]" />
+                  <span>Scan Mobile QR</span>
+                </button>
+              )}
 
               <a
                 href="#paradigm"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-neutral-300 bg-white px-6 py-4 text-[15px] font-semibold text-neutral-900 shadow-sm transition-all hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-transparent px-4 py-3.5 text-[14px] font-semibold text-neutral-700 hover:text-neutral-900 transition"
               >
                 <span>Why Aegis Wins</span>
                 <span className="text-neutral-400">→</span>
