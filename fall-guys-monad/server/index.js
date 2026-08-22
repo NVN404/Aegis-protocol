@@ -22,7 +22,7 @@ const MONAD_CHAIN = {
   rpcUrls: { default: { http: ['https://testnet-rpc.monad.xyz'] } },
 };
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || '0xDFAA6355BB05A3a6a247D2F6c5BB4C288AcD39af';
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || '0x129D936cfbBe50FA0Ce7e61b36B33A35d8D08DCa';
 const HOST_PRIVATE_KEY = process.env.HOST_PRIVATE_KEY || '0x0000000000000000000000000000000000000000000000000000000000000001';
 
 const account = privateKeyToAccount(HOST_PRIVATE_KEY);
