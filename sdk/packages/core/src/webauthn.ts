@@ -155,7 +155,7 @@ export interface CreatePasskeyOptions {
   rpId?: string;
   /**
    * The factory contract address used for CREATE2 counterfactual address derivation.
-   * @default "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E" (Monad Testnet)
+   * @default "0x29373c0172c89eA61df297ca76A252815b012bd1" (Monad Testnet)
    */
   factoryAddress?: string;
 }
@@ -191,7 +191,7 @@ export async function createHardwarePasskey(
     displayName = "Monad Verified Human",
     rpName = "Monad Proof of Personhood",
     rpId,
-    factoryAddress = "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E",
+    factoryAddress = "0x29373c0172c89eA61df297ca76A252815b012bd1",
   } = options;
 
   const challenge = crypto.getRandomValues(new Uint8Array(32));
@@ -370,7 +370,7 @@ export interface SimulatedPasskeyOptions {
   seed?: string;
   /**
    * The factory contract address used for CREATE2 counterfactual address derivation.
-   * @default "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E" (Monad Testnet)
+   * @default "0x29373c0172c89eA61df297ca76A252815b012bd1" (Monad Testnet)
    */
   factoryAddress?: string;
 }
@@ -393,7 +393,7 @@ export interface SimulatedPasskeyOptions {
 export function createSimulatedPasskey(
   options: SimulatedPasskeyOptions = {}
 ): PasskeyIdentity {
-  const { seed = "monad-dev", factoryAddress = "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E" } =
+  const { seed = "monad-dev", factoryAddress = "0x29373c0172c89eA61df297ca76A252815b012bd1" } =
     options;
 
   const seedHash = ethers.keccak256(

@@ -38,9 +38,9 @@ const PasskeyContext = createContext<PasskeyContextValue | null>(null);
 
 const DEFAULT_CONFIG: Required<MonadPasskeyConfig> = {
   relayerUrl: "http://localhost:3006",
-  factoryAddress: "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E",
-  registryAddress: "0xd9e6c85409d250308c31DEf3a7021889a96fBe8C",
-  faucetAddress: "0x5b6e24Be7714980f202e02221f5a5E9E34d0D4bD",
+  factoryAddress: "0x29373c0172c89eA61df297ca76A252815b012bd1",
+  registryAddress: "0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4",
+  faucetAddress: "0x9e3719c834665267dda6fD9C228643a73197E902",
   network: "testnet",
   rpId: "",
   rpName: "Monad Proof of Personhood",

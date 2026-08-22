@@ -8,11 +8,11 @@
 /** Contract addresses on Monad Testnet (Chain ID 10143) */
 export const TESTNET_ADDRESSES = {
   /** PasskeyAccountFactory — CREATE2 factory for deterministic smart accounts */
-  factory: "0x9A48b2C74618eB1761d7634032dDEf1B2b42931E",
+  factory: "0x29373c0172c89eA61df297ca76A252815b012bd1",
   /** ProofOfPersonhoodRegistry — canonical human identity registry */
-  popRegistry: "0xd9e6c85409d250308c31DEf3a7021889a96fBe8C",
+  popRegistry: "0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4",
   /** SybilResistantFaucet — hardware-gated 0.5 MON drip */
-  faucet: "0x5b6e24Be7714980f202e02221f5a5E9E34d0D4bD",
+  faucet: "0x9e3719c834665267dda6fD9C228643a73197E902",
   /** Monad secp256r1 precompile — EIP-7951 / RIP-7212 */
   precompile: "0x0000000000000000000000000000000000000100",
 } as const;
