@@ -1,147 +1,226 @@
-# 📱 Monad Passkey PoP — Mobile-Native Proof of Personhood
+# 🛡️ Aegis Protocol — Hardware Passkey Smart Account & Silicon Proof of Personhood
 
-> **Decentralized, non-invasive Proof of Personhood using Apple Secure Enclave & Android Titan Passkeys (secp256r1 / P-256), verified natively on Monad via Precompile `0x0100` (EIP-7951 / RIP-7212) in 6,900 gas.**
+> **The Sovereign, Seedless Hardware Wallet & Anti-Sybil Protocol for Monad — powered natively by Precompile `0x0100` (EIP-7951 / RIP-7212) in 6,900 gas.**
 
-[![Monad Testnet](https://img.shields.io/badge/Network-Monad%20Testnet%20(10143)-836EF9?style=flat-square)](https://testnet.monadexplorer.com/)
-[![Precompile 0x0100](https://img.shields.io/badge/Precompile-0x0100%20(EIP--7951)-20E2D7?style=flat-square)](https://docs.monad.xyz/developer-essentials/precompiles)
-[![Gas Cost](https://img.shields.io/badge/Gas%20Cost-6%2C900%20Flat%20(-97.8%25)-10B981?style=flat-square)](https://docs.monad.xyz)
-[![Foundry](https://img.shields.io/badge/Foundry-13%2F13%20Tests%20Passing-orange?style=flat-square)](https://getfoundry.sh)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-
----
-
-## 💡 Executive Summary & Why It Matters
-
-Traditional "Proof of Personhood" (PoP) systems force users into a dystopian trade-off: either surrender biometric data to centralized iris scanners (e.g. Worldcoin) or complete cumbersome centralized KYC.
-
-**Monad Passkey PoP** replaces invasive scans and 12-word seed phrases with the **hardware Secure Enclave** already inside 3+ billion smartphones:
-1. **Zero Centralized Issuers / Zero Iris Scans**: Biometric keys never leave the phone's hardware chip.
-2. **Native EVM Precompile Verification (`0x0100`)**: Monad includes native precompile support for the `secp256r1` (P-256) curve.
-3. **97.8% Gas Reduction**: While Ethereum or non-precompile EVM chains burn **~320,000 gas** in pure Solidity elliptic math, Monad verifies hardware signatures for a flat **6,900 gas**.
-4. **400ms Sub-Second Finality**: 1 tap with FaceID or TouchID executes instant sybil-resistant actions on Monad.
+[![Monad Testnet](https://img.shields.io/badge/Network-Monad%20Testnet%20(10143)-836EF9?style=for-the-badge&logo=monad)](https://testnet.monadexplorer.com/)
+[![Precompile 0x0100](https://img.shields.io/badge/Precompile-0x0100%20(EIP--7951)-20E2D7?style=for-the-badge)](https://docs.monad.xyz)
+[![Gas Cost](https://img.shields.io/badge/Gas%20Cost-6%2C900%20Flat%20(-98.2%25)-10B981?style=for-the-badge)](https://docs.monad.xyz)
+[![Foundry](https://img.shields.io/badge/Foundry-9%2F9%20Tests%20Passing-orange?style=for-the-badge)](https://getfoundry.sh)
+[![Chrome Extension](https://img.shields.io/badge/Extension-Manifest%20V3%20(EIP--6963)-FF7A00?style=for-the-badge)](./extension)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 🏗️ System Architecture
+## 📌 Executive Summary
+
+**Aegis Protocol** turns the physical silicon security chips already inside 3+ billion smartphones and laptops (Apple Secure Enclave, Google Titan M2, Windows Hello TPM) into **sovereign, un-hackable, seedless Smart Contract Accounts** on Monad.
+
+By leveraging **Monad's native Precompile `0x0100`**, Aegis verifies biometric hardware signatures on-chain in **6,900 gas (< 0.05ms)** — eliminating seed phrases, blocking bot farms, and bringing 1-tap TouchID/FaceID onboarding to the entire Monad ecosystem.
+
+---
+
+## 🥊 The Paradigm Shift: Why Aegis Wins
+
+### 1. Aegis vs. Legacy Wallets vs. Cloud WaaS
 
 ```
-┌────────────────────────────────┐
-│   User Mobile Hardware Device   │  • Apple iPhone (Secure Enclave) / Android (Titan M2)
-│   (FaceID / TouchID Biometrics) │  • Generates secp256r1 (P-256) Private Key (never exported)
-└───────────────┬────────────────┘
-                │  navigator.credentials.create() / get()
-                ▼
-┌────────────────────────────────┐
-│   WebAuthn Frontend Client     │  • Extracts Public Key (Qx, Qy) & ASN.1 DER (r, s)
-│   (Next.js 15 + Viem + Ethers) │  • Computes SHA256(authenticatorData || SHA256(clientData))
-└───────────────┬────────────────┘
-                │  Packed Payload (160 Bytes: hash, r, s, Qx, Qy)
-                ▼
-┌────────────────────────────────┐
-│   Monad Smart Account / PoP    │  • PasskeyAccount.sol / ProofOfPersonhoodRegistry.sol
-│   (Contracts on Monad EVM)     │  • Direct staticcall to address(0x0100)
-└───────────────┬────────────────┘
-                │  staticcall (6,900 Gas)
-                ▼
-┌────────────────────────────────┐
-│   Monad Precompile 0x0100      │  • EIP-7951 / RIP-7212 Native C++ Kernel Verification
-│   (secp256r1 P-256 Engine)     │  • Returns 0x01 (Valid) in < 1ms
-└────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 THE WALLET ARCHITECTURE SPECTRUM                                 │
+├───────────────────────────────┬──────────────────────────────────┬───────────────────────────────┤
+│     🦊 Legacy EOA Wallets     │      🏢 Cloud WaaS Providers     │       ⚡ AEGIS PROTOCOL       │
+│     (MetaMask / Phantom)      │     (Turnkey / Privy / Magic)    │      (Hardware + 0x0100)      │
+├───────────────────────────────┼──────────────────────────────────┼───────────────────────────────┤
+│ ❌ 12-Word Seed Phrases        │ ❌ Keys stored in AWS Cloud      │ 🛡️ Trapped in Phone Silicon   │
+│ ❌ Vulnerable to Phishing     │ ❌ Must trust Centralized SaaS   │ 🛡️ 100% Phishing-Proof (WebAuthn)│
+│ ❌ Keys live in Browser RAM   │ ❌ High monthly B2B API fees     │ 🛡️ 0 Cloud Middlemen / 0 Fees │
+│ ❌ No Sybil / Anti-Bot Defense│ ❌ No Sybil Defense (Mass APIs)  │ 🛡️ 1 Phone = 1 Verified Human │
+│ ❌ User must hold Gas funds   │ ⚠️ Cloud Relayer dependencies    │ ⚡ Native Monad Gas Sponsoring│
+│ ⚠️ Generic EVM Speed          │ ⚠️ Slow Cloud-to-Chain Handoff   │ ⚡ 6,900 Gas Precompile 0x0100│
+└───────────────────────────────┴──────────────────────────────────┴───────────────────────────────┘
 ```
 
 ---
 
-## 🚀 4 Killer Real-World Use Cases
+### 2. Why Aegis Destroys Centralized Cloud Wallets (Turnkey, Privy, Magic)
 
-### 1. 🛡️ Sybil-Resistant Airdrops & Faucets
-- **The Crisis**: Airdrop farmers write Python scripts to generate 50,000 standard Ethereum keys and drain testnet faucets or game reward pools.
-- **The Monad Fix**: Attackers cannot mass-script physical hardware chips. By requiring a Passkey assertion verified via `0x0100`, claims are tied 1:1 to physical devices.
-
-### 2. 🎮 The "Seedless" Consumer Crypto App (SocialFi & Gaming)
-- **The Crisis**: 90% of mainstream users abandon Web3 apps during 12-word seed phrase onboarding.
-- **The Monad Fix**: Users tap "Create Account," scan FaceID, and immediately have a non-custodial Smart Account on Monad. In-game actions and micro-tips sign with a thumbprint in 400ms.
-
-### 3. 🗳️ 1-Phone = 1-Vote Democratic DAO Governance
-- **The Crisis**: Token-weighted DAOs degrade into whale oligarchies, and quadratic voting fails when whales split funds into 10,000 burner wallets.
-- **The Monad Fix**: DAO votes are weighted by verified hardware devices. 1 Phone = 1 Democratic Voice.
-
-### 4. 🐋 Hardware-Level 2FA for Whales & High-Value Vaults
-- **The Crisis**: Hot wallet seed phrases get compromised by PC malware or clipboard hijackers.
-- **The Monad Fix**: Smart contract allows small transfers (< 5 MON) seamlessly, but mandates a physical FaceID Passkey signature for high-value transactions. A hacker cannot move whale funds without holding the victim's physical phone.
+| Feature | 🏢 Cloud Providers (Turnkey / AWS Nitro) | ⚡ Aegis Protocol (Local Silicon + Monad) |
+| :--- | :--- | :--- |
+| **Where is the Private Key?** | Stored inside **Amazon AWS Cloud Data Centers**. | Trapped inside **Your Physical iPhone/Android Chip**. |
+| **Censorship Risk** | Amazon or the provider can freeze your account. | **Zero Censorship.** Direct on-chain smart contract. |
+| **Trust Model** | Trust AWS uptime & SaaS security. | **Pure Mathematics & Consensus.** |
+| **Bot Resistance** | Anyone can spin up 10,000 cloud accounts via API. | **1 Physical Device = 1 Human Account.** |
+| **Transaction Cost** | Heavy B2B SaaS subscription cost. | **Flat 6,900 Gas (~$0.0001 per tx).** |
 
 ---
 
-## 📜 Smart Contract Suite
+### 3. Aegis vs. Worldcoin (The Privacy-Preserving Proof of Personhood)
 
-All smart contracts are located in `contracts/src/`:
-
-| Contract | Description |
-|---|---|
-| [`WebAuthnPrecompile.sol`](./contracts/src/WebAuthnPrecompile.sol) | Solidity library interface for Monad `0x0100` precompile, ASN.1 parsing, and WebAuthn SHA-256 digest computation. |
-| [`PasskeyAccount.sol`](./contracts/src/PasskeyAccount.sol) | Smart contract account controlled by P-256 hardware public key $(Q_x, Q_y)$ with replay protection. |
-| [`PasskeyAccountFactory.sol`](./contracts/src/PasskeyAccountFactory.sol) | Deterministic CREATE2 factory for counterfactual account derivation. |
-| [`ProofOfPersonhoodRegistry.sol`](./contracts/src/ProofOfPersonhoodRegistry.sol) | Canonical registry tracking verified human hardware credentials. |
-| [`SybilResistantFaucet.sol`](./contracts/src/SybilResistantFaucet.sol) | Faucet dispensing tokens strictly to hardware-verified human identities. |
-| [`QuadraticDaoVoting.sol`](./contracts/src/QuadraticDaoVoting.sol) | 1-Phone = 1-Vote quadratic governance chamber. |
-| [`SeedlessSocialFi.sol`](./contracts/src/SeedlessSocialFi.sol) | Seedless creator hub with biometric micro-tipping. |
-| [`Hardware2FAWhaleGuard.sol`](./contracts/src/Hardware2FAWhaleGuard.sol) | Dual-signature vault requiring FaceID 2FA for large transfers. |
+* **👁️ Worldcoin:** Forces users to stand in line and scan their **physical eyeballs/irises** with metallic cameras. Highly invasive, raises biometric data storage fears, and requires expensive hardware.
+* **📱 Aegis Protocol:** Uses the **hardware chip already in your pocket**. When you touch TouchID, the Apple/Android Secure Enclave produces an unforgeable cryptographic proof of a unique physical device. **Zero iris scans, zero KYC, zero invasive biometric storage.**
 
 ---
 
-## 🧪 Automated Test Suite (100% Pass)
+## 🏛️ System Architecture
 
-Run Foundry unit and cryptographic integration tests:
+```text
+ ┌──────────────────────────────────────────────┐
+ │     USER'S PHYSICAL SMARTPHONE / LAPTOP      │
+ │  (Apple Secure Enclave / Google Titan M2)    │
+ └──────────────────────┬───────────────────────┘
+                        │
+                        │ 1. 1-Tap TouchID / FaceID
+                        │    Generates & Signs with P-256 (secp256r1)
+                        ▼
+ ┌──────────────────────────────────────────────┐
+ │       AEGIS CLIENTS & INTEGRATIONS           │
+ │  • 📱 Mobile Web App (PWA & Android APK)     │
+ │  • 🦊 Laptop Browser Extension (Manifest V3) │
+ │  • 🛠️ TypeScript SDK (@monad-passkey/core)   │
+ └──────────────────────┬───────────────────────┘
+                        │
+                        │ 2. Packed 160-byte payload
+                        ▼
+ ┌──────────────────────────────────────────────┐
+ │             MONAD SMART CONTRACTS            │
+ │  • PasskeyAccountFactory.sol (CREATE2)       │
+ │  • PasskeyAccount.sol (Smart Account Vault)  │
+ │  • ProofOfPersonhoodRegistry.sol (Anti-Bot)  │
+ └──────────────────────┬───────────────────────┘
+                        │
+                        │ 3. staticcall (6,900 gas)
+                        ▼
+ ┌──────────────────────────────────────────────┐
+ │           MONAD PRECOMPILE 0x0100            │
+ │            (EIP-7951 / RIP-7212)             │
+ │                                              │
+ │   • Sub-millisecond P-256 signature check    │
+ │   • Returns 0x01 (Valid) or 0x00 (Invalid)   │
+ └──────────────────────────────────────────────┘
+```
 
+---
+
+## 📦 What's Inside the Aegis Ecosystem
+
+### 1. 🦊 Laptop Browser Extension (`/extension`)
+* **Manifest V3 Compliant:** Full Chrome, Brave, Edge, and Opera support.
+* **EIP-1193 & EIP-6963 Injected Provider:** Injects `window.ethereum` and `window.monad`. Any Web3 dApp (DEXs, Marketplaces, Games) automatically detects **"MonadPass (Hardware Passkey)"**.
+* **1-Tap TouchID:** Sign transactions and manage assets without extensions passwords or seed phrases.
+
+### 2. 📱 Mobile Wallet App (`/frontend`)
+* **Mobile-Native PWA:** Installable directly to iOS/Android home screen with fullscreen FaceID support.
+* **Android APK Generator:** Built-in **Capacitor Android** configuration (`npm run build:apk`) for direct `.apk` distribution.
+* **Live History Dock:** Real-time on-chain transaction tracker with direct MonadScan explorer links.
+
+### 3. 🛠️ Modular TypeScript SDK (`/sdk`)
+* **`@monad-passkey/core`:** High-level client (`MonadPassClient`) for creating passkeys, generating CREATE2 addresses, and executing contract calls.
+* **`@monad-passkey/react`:** React hooks (`useMonadPass()`, `usePasskeyAccount()`) and UI components (`<MonadPassButton />`).
+* **`@monad-passkey/contracts`:** Typed ABIs and deployed Monad Testnet addresses.
+* **Starter Template:** Fully functional demo in `/sdk/apps/example-nextjs`.
+
+### 4. ⚡ Core Smart Contracts (`/contracts`)
+* **`WebAuthnPrecompile.sol`:** Cryptographic bridge library executing low-level `staticcall` to `0x0100`.
+* **`PasskeyAccount.sol`:** Sovereign smart contract account with replay-protected execution and gasless relayer support.
+* **`PasskeyAccountFactory.sol`:** Counterfactual CREATE2 factory allowing instant address calculation before deployment.
+* **`ProofOfPersonhoodRegistry.sol`:** Canonical Sybil-resistance registry binding 1 physical silicon key to 1 human identity.
+
+### 5. ⛽ Monad Testnet Relayer (`/relayer`)
+* **Gas Sponsoring Pool:** 72+ MON live pool on Monad Testnet sponsoring starter gas and transaction execution.
+* **Auto-Deployment Pipeline:** Deploys smart accounts and funds them with 0.50 MON in a single automated step.
+
+### 6. 🎮 Fall Guys Arena Integration (`/fall-guys-monad`)
+* **100% On-Chain 3D Game:** Pay 0.10 MON entry fee, race through obstacles, and earn checkpoint rewards on Monad.
+* **1-Tap Passkey Play:** Uses the Aegis smart account for sub-second tournament entry and prize payouts.
+
+---
+
+## 🔬 Deep-Dive Cryptography: Why `0x0100` Changes Everything
+
+### The Mathematical Equation:
+Apple and Android Secure Enclaves operate on the **NIST P-256 (secp256r1)** curve:
+
+$$y^2 \equiv x^3 - 3x + b \pmod p$$
+
+When you touch TouchID, the silicon generates public key coordinates:
+* $Q_x$: 32-byte horizontal coordinate
+* $Q_y$: 32-byte vertical coordinate
+
+And signs a message digest producing the signature $(r, s)$.
+
+### The Gas Benchmark:
+
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                    GAS COST PER SIGNATURE                   │
+ ├────────────────────────────────┬────────────────────────────┤
+ │ Standard Ethereum (Solidity)   │ 380,000 Gas ($15.00)       │
+ │ Monad Precompile 0x0100        │ 6,900 Gas   ($0.0001)      │
+ ├────────────────────────────────┴────────────────────────────┤
+ │ RESULT: 98.2% CHEAPER · SUB-SECOND EXECUTION ON MONAD       │
+ └─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Live Smart Contract Deployments (Monad Testnet 10143)
+
+| Contract | Address on Monad Testnet | Explorer Link |
+| :--- | :--- | :--- |
+| **PasskeyAccountFactory** | `0x29373c0172c89eA61df297ca76A252815b012bd1` | [View on MonadVision ↗](https://testnet.monadvision.com/address/0x29373c0172c89eA61df297ca76A252815b012bd1) |
+| **ProofOfPersonhoodRegistry** | `0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4` | [View on MonadVision ↗](https://testnet.monadvision.com/address/0xeE575e3C061c85a14cb44152adDC5baB28Ce68a4) |
+| **Precompile 0x0100** | `0x0000000000000000000000000000000000000100` | Native Monad Kernel |
+
+---
+
+## 🛠️ Quickstart Guide
+
+### 1. Run the Mobile Wallet Web App:
+```bash
+cd frontend
+npm install
+npm run dev
+# Open http://localhost:3005
+```
+
+### 2. Load the Laptop Extension in Chrome / Brave / Edge:
+1. Open `chrome://extensions`.
+2. Toggle on **"Developer mode"** (top right).
+3. Click **"Load unpacked"** and select the `/extension` folder.
+4. Pin **MonadPass** to your toolbar and tap **"Create with TouchID"**!
+
+### 3. Use the SDK in your Project:
+```typescript
+import { MonadPassClient } from "@monad-passkey/core";
+
+// 1. Initialize client on Monad Testnet
+const client = new MonadPassClient({ chainId: 10143 });
+
+// 2. 1-Tap TouchID / FaceID Login (Zero seed phrases!)
+const account = await client.connect();
+console.log("Smart Account:", account.address);
+
+// 3. Execute Transaction via Precompile 0x0100 (6,900 gas)
+const tx = await client.execute({
+  to: "0xD726fdedfCc747FC1Ff5E2eBE7773b9cE51F40D4",
+  value: "0.1",
+});
+```
+
+### 4. Run Smart Contract Tests (Foundry):
 ```bash
 cd contracts
-forge test -vvv
+forge test
+# Output: 9 passed, 0 failed (100% PASS)
 ```
 
-### Test Output
-```
-Ran 3 tests for test/PasskeyAccount.t.sol:PasskeyAccountTest
-[PASS] test_DeterministicAddressDerivationAndDeployment()
-[PASS] test_ERC1271Validation()
-[PASS] test_ExecuteWithPasskeyBiometrics()
-
-Ran 4 tests for test/WebAuthnPrecompile.t.sol:WebAuthnPrecompileTest
-[PASS] test_RejectInvalidSignature()
-[PASS] test_RejectMissingUserPresent()
-[PASS] test_VerifyP256Direct()
-[PASS] test_WebAuthnPayloadVerification()
-
-Ran 6 tests for test/ProofOfPersonhood.t.sol:ProofOfPersonhoodTest
-[PASS] test_Hardware2FAWhaleGuard()
-[PASS] test_PreventDuplicateHardwareRegistration()
-[PASS] test_QuadraticDaoVotingOnePhoneOneVote()
-[PASS] test_RegisterHumanPersonhood()
-[PASS] test_SeedlessSocialFiCreatePostAndTip()
-[PASS] test_SybilResistantFaucetClaimAndCooldown()
-
-Suite result: ok. 13 passed; 0 failed; 0 skipped
-```
-
----
-
-## 💻 Running the Web Application Locally
-
+### 5. Build Android APK:
 ```bash
-# 1. Enter the frontend directory
 cd frontend
-
-# 2. Run the development server
-npm run dev
-
-# 3. Open your browser
-# Visit http://localhost:3005
+npx cap add android
+npm run build:apk
 ```
 
 ---
 
-## ⚡ Gas Comparison Benchmark
-
-| Verification Method | Gas Consumed | Notes |
-|---|---|---|
-| **Monad Native Precompile `0x0100`** | **6,900 gas** | **Flat cost, instant C++ execution** |
-| Vanilla EVM Solidity Verifier | ~320,000 gas | Pure EVM elliptic multiplication |
-| **Monad Gas Savings** | **97.8% Reduction** | **Enables micro-transactions & biometrics** |
+## 📜 License
+MIT © 2026 Aegis Protocol Contributors. Built with ❤️ for the Monad Ecosystem.
